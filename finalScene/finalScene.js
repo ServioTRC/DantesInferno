@@ -2,9 +2,6 @@ let renderer = null,
 scene = null, 
 camera = null;
 
-let duration = 5000; // ms
-let currentTime = Date.now();
-
 function run() 
 {
     // controls.update();
@@ -36,5 +33,5 @@ function createScene(canvas)
 }
 
 function restart(){
-    window.location = '../finalScene/finalScene.html'
+    window.location = '../doorScene/doorScene.html'
 }
