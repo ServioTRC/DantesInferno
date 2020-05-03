@@ -176,11 +176,12 @@ function createScene(canvas)
     loadGLTFDoor(scene);
     createTrees(scene);
     createTorchs(scene);
+    loadObjBear(scene, -300, 0, 900, Math.PI + Math.PI/6);
 }
 
 function createTrees(scene){
     let x, z;
-    let backNfront = 5, laterals = 5;
+    let backNfront = 10, laterals = 50;
     for(let i = 0; i < laterals; i++){
         x = Math.floor(Math.random() * 900) + 500;
         z = Math.floor(Math.random() * 2800) - 1400;
@@ -321,3 +322,10 @@ function onKeyUp( event ) {
 
     }
 }
+
+
+// TODO:
+// Cambiar color de la retícula
+// Ponerle límites de movimiento
+// Pantalla de loading
+// Keyframes a luz para simular fuego (cambios entre naranjas y rojos)

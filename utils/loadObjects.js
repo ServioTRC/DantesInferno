@@ -107,7 +107,7 @@ async function loadObjFire(scene, x, y, z)
     }
 }
 
-async function loadGLTFDoor(scene)
+async function loadGLTFDoor(scene, x, y, z)
 {
     let gltfLoader = new THREE.GLTFLoader();
     let loader = promisifyLoader(gltfLoader);
@@ -119,7 +119,9 @@ async function loadGLTFDoor(scene)
         let door = resultDoor.scene.children[0];
         door.scale.set(180, 180, 180);
         door.rotation.z += Math.PI;
-        door.position.z = 1000;
+        door.position.z = z;
+        door.position.y = y;
+        door.position.x = x;
         door.traverse(child =>{
             if(child.isMesh)
             {
@@ -170,5 +172,33 @@ async function loadGLTFWolf(scene)
     catch(err)
     {
         console.error(err);
+    }
+}
+
+async function loadObjBear(scene, x, y, z, rotation_z)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let bear = await objPromiseLoader.load('../models/bear/Bear.obj');
+        let texture = new THREE.TextureLoader().load("../models/bear/UV_Bear.png");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        bear.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+                console.log(child);
+            }
+        });
+        bear.scale.set(5, 5, 5);
+        bear.position.z = z;
+        bear.position.x = x;
+        bear.position.y = y;
+        bear.rotation.y -= rotation_z;
+        scene.add(bear);
+    }
+    catch (err) {
+        return onError(err);
     }
 }
