@@ -4,13 +4,12 @@
 		<title>three.js - pointerlock controls</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <link rel="stylesheet" href="../css/doorScene.css" />
+        <link rel="stylesheet" href="../css/threejsPointerLock.css" />
         
 		<script src="../libs/three.js/three.js"></script>
         <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <script src="../libs/jquery-ui/jquery-ui.js"></script>
         <script src="../libs/three.js/controls/OrbitControls.js"></script>
-        <script src="../libs/three.js/controls/PointerLockControls.js"></script>
 
         <script src="../libs/three.js/loaders/GLTFLoader.js"></script>
         <script src="../libs/three.js/loaders/MTLLoader.js"></script>
@@ -21,7 +20,6 @@
 
         <script src="../utils/loadObjects.js"></script>
         <script src="../utils/screenHandler.js"></script>
-        <script src="reticle.js"></script>
         <script src="doorScene.js"></script>
 
         <script type="text/javascript">
@@ -41,15 +39,6 @@
     </head>
     
 	<body>
-
-        <div id="blocker">
-
-			<div id="instructions">
-				<span style="font-size:40px">Click to play</span>
-				<br />
-				(W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
-            </div>
-        </div>
 
         <div id="container">
             <canvas id="webglcanvas"></canvas>

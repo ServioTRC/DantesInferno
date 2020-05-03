@@ -1,47 +1,14 @@
 let renderer = null, 
 scene = null, 
-camera = null,
-controls;
+camera = null;
 
 let floorUrl = "../images/grass_texture.jpg";
 let wolf, resultGLTF, wolfAnimations = {}, resultDoor, door, resultTree, tree;
 let penguinObj, raycaster;
 let mouse = new THREE.Vector2();
 
-let moveForward = false;
-let moveBackward = false;
-let moveLeft = false;
-let moveRight = false;
-let canJump = false;
-let blocker,  instructions;
-let prevTime = performance.now();
-let velocity, direction;
 
 let currentTime = Date.now();
-
-function initPointerLock()
-{
-    blocker = document.getElementById( 'blocker' );
-    instructions = document.getElementById( 'instructions' );
-
-    controls = new THREE.PointerLockControls( camera, document.body );
-
-    controls.addEventListener( 'lock', function () {
-        instructions.style.display = 'none';
-        blocker.style.display = 'none';
-    } );
-    
-    controls.addEventListener( 'unlock', function () {
-        blocker.style.display = 'block';
-        instructions.style.display = '';
-    } );
-
-    instructions.addEventListener( 'click', function () {
-        controls.lock();
-    }, false );
-
-    scene.add( controls.getObject() );
-}
 
 async function loadGLTFWolf(scene)
 {
@@ -123,9 +90,6 @@ function createScene(canvas)
     // Options are THREE.BasicShadowMap, THREE.PCFShadowMap, PCFSoftShadowMap
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     
-    velocity = new THREE.Vector3();
-    direction = new THREE.Vector3();
-    
     // Create a new Three.js scene
     scene = new THREE.Scene();
     // Adding Milky Way Background
@@ -135,15 +99,9 @@ function createScene(canvas)
     // Add a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.position.set(0, 55, -350);
-    var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-    var sphere = new THREE.Mesh( geometry, material );
-    camera.add(sphere);
-    sphere.position.set( 0, 0, -30 );
-    // scene.add(sphere);
     scene.add(camera);
 
-    // orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+    orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Create a texture map
     let map = new THREE.TextureLoader().load(floorUrl);
@@ -166,15 +124,11 @@ function createScene(canvas)
 
     window.addEventListener( 'resize', onWindowResize);
     document.addEventListener('mousedown', onDocumentMouseDown);
-    document.addEventListener( 'keydown', onKeyDown, false );
-    document.addEventListener( 'keyup', onKeyUp, false );
     raycaster = new THREE.Raycaster();
-    initPointerLock();
-
 
     loadGLTFWolf(scene);
     loadGLTFDoor(scene);
-    createTrees(scene);
+    // createTrees(scene);
     createTorchs(scene);
 }
 
@@ -214,39 +168,17 @@ function animate() {
     currentTime = now;
     if(wolfAnimations["04_Idle"])
         wolfAnimations["04_Idle"].getMixer().update(deltat * 0.001);
-    
 }
 
 function run() 
 {
     requestAnimationFrame(function() { run(); });
     
-    animate();
-    // Update the camera controller
-    // orbitControls.update();
-    if ( controls.isLocked === true ) 
-    {
-        let time = performance.now();
-        let delta = ( time - prevTime ) / 1000;
-
-        velocity.x -= velocity.x * 10.0 * delta;
-        velocity.z -= velocity.z * 10.0 * delta;
-
-        direction.z = Number( moveForward ) - Number( moveBackward );
-        direction.x = Number( moveRight ) - Number( moveLeft );
-
-        direction.normalize(); // this ensures consistent movements in all directions
-        if ( moveForward || moveBackward ) velocity.z -= direction.z * 4000.0 * delta;
-        if ( moveLeft || moveRight ) velocity.x -= direction.x * 4000.0 * delta;
-
-        controls.moveRight( - velocity.x * delta );
-        controls.moveForward( - velocity.z * delta );
-
-        prevTime = time;
-    }
-
     // Render the scene
     renderer.render( scene, camera );
+    animate();
+    // Update the camera controller
+    orbitControls.update();
 }
 
 function onDocumentMouseDown(event)
@@ -265,59 +197,5 @@ function onDocumentMouseDown(event)
         console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800)
             window.location = '../finalScene/finalScene.html'
-    }
-}
-
-function onKeyDown ( event )
-{
-    switch ( event.keyCode ) {
-
-        case 38: // up
-        case 87: // w
-            moveForward = true;
-            break;
-
-        case 37: // left
-        case 65: // a
-            moveLeft = true; 
-            break;
-
-        case 40: // down
-        case 83: // s
-            moveBackward = true;
-            break;
-
-        case 39: // right
-        case 68: // d
-            moveRight = true;
-            break;
-    }
-
-}
-
-function onKeyUp( event ) {
-
-    switch( event.keyCode ) {
-
-        case 38: // up
-        case 87: // w
-            moveForward = false;
-            break;
-
-        case 37: // left
-        case 65: // a
-            moveLeft = false;
-            break;
-
-        case 40: // down
-        case 83: // s
-            moveBackward = false;
-            break;
-
-        case 39: // right
-        case 68: // d
-            moveRight = false;
-            break;
-
     }
 }
