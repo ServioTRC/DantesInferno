@@ -23,7 +23,7 @@ function createScene(canvas)
     scene = new THREE.Scene();
 
     // Adding Milky Way Background
-    scene.background = new THREE.TextureLoader().load("../images/milky_way.jpg");
+    scene.background = new THREE.TextureLoader().load("../images/stars.jpg");
 
     // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 4000 );
