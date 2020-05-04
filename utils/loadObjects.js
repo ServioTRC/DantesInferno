@@ -96,7 +96,8 @@ async function loadObjFire(scene, x, y, z)
         fire.position.y = y;
         
 
-        let light = new THREE.PointLight( 0xfe4c00, 2.5, 0);
+        // let light = new THREE.PointLight( 0xfe4c00, 2.5, 0);
+        let light = new THREE.PointLight( 0xffffff, 2.5, 0);
         light.position.set(x, y+10, z);
 
         scene.add(light);
@@ -197,6 +198,92 @@ async function loadObjBear(scene, x, y, z, rotation_z)
         bear.position.y = y;
         bear.rotation.y -= rotation_z;
         scene.add(bear);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}
+
+async function loadObjCthulu(scene, x, y, z, rotation_z)
+{   
+    console.log("Cargando");
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let bear = await objPromiseLoader.load('../models/cthulhu/cthulu.obj');
+        let texture = new THREE.TextureLoader().load("../images/grass_texture.jpg");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        bear.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+            }
+        });
+        bear.scale.set(10000, 10000, 10000);
+        bear.position.z = z;
+        bear.position.x = x;
+        bear.position.y = y;
+        bear.rotation.y -= rotation_z;
+        scene.add(bear);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}
+
+async function loadObjGargoyle(scene, x, y, z)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let torch = await objPromiseLoader.load('../models/gargoyle/Gargoyle.obj');
+        let texture = new THREE.TextureLoader().load("../images/grass_texture.jpg"); // Ponerlo bien
+        let normalMap = new THREE.TextureLoader().load("../models/gargoyle/Gargoyle_normals.jpg");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        torch.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+                child.material.normalMap = normalMap;
+            }
+        });
+        torch.scale.set(5, 5, 5);
+        torch.position.z = z;
+        torch.position.x = x;
+        torch.position.y = y;
+        torch.castShadow = false;
+        torch.receiveShadow = true;
+        scene.add(torch);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}
+
+async function loadObjIceberg(scene, x, y, z)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let torch = await objPromiseLoader.load('../models/iceberg/Mountain.obj');
+        let texture = new THREE.TextureLoader().load("../images/ice.jpg");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        torch.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+            }
+        });
+        torch.scale.set(2, 2, 2);
+        torch.position.z = z;
+        torch.position.x = x;
+        torch.position.y = y;
+        torch.castShadow = false;
+        torch.receiveShadow = true;
+        scene.add(torch);
     }
     catch (err) {
         return onError(err);
