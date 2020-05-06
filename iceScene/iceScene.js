@@ -10,42 +10,6 @@ let mouse = new THREE.Vector2();
 
 let currentTime = Date.now();
 
-async function loadGLTFWolf(scene)
-{
-    let gltfLoader = new THREE.GLTFLoader();
-    let loader = promisifyLoader(gltfLoader);
-
-    try
-    {
-        resultGLTF = await loader.load("../models/wolf/scene.gltf");
-        resultGLTF.scene.children[0].name = "wolf";
-        wolf = resultGLTF.scene.children[0];
-        wolf.scale.set(200, 200, 200);
-        wolf.position.y = 65;
-        wolf.position.z = 900;
-        wolf.position.x = 300;
-        wolf.rotation.z -= Math.PI/2 - Math.PI/6;
-        wolf.traverse(child =>{
-            if(child.isMesh)
-            {
-                child.castShadow = true;
-                child.receiveShadow = true;
-            }
-        });
-        resultGLTF.animations.forEach(element => {
-            wolfAnimations[element.name] = new THREE.AnimationMixer( scene ).clipAction(element, wolf);
-            wolfAnimations[element.name].play();
-        });
-        wolf.castShadow = true;
-        wolf.receiveShadow = true;
-        scene.add(wolf);
-    }
-    catch(err)
-    {
-        console.error(err);
-    }
-}
-
 async function loadGLTFDoor(scene)
 {
     let gltfLoader = new THREE.GLTFLoader();
@@ -54,11 +18,10 @@ async function loadGLTFDoor(scene)
     try
     {
         let resultDoor = await loader.load("../models/hell_gate/scene.gltf");
-        resultDoor.scene.children[0].name = "wolf";
+        resultDoor.scene.children[0].name = "door";
         door = resultDoor.scene.children[0];
-        door.scale.set(180, 180, 180);
-        door.rotation.z += Math.PI;
-        door.position.z = 1000;
+        door.scale.set(100, 100, 100);
+        door.position.z = -1800;
         door.traverse(child =>{
             if(child.isMesh)
             {
@@ -93,7 +56,6 @@ function createScene(canvas)
     // Create a new Three.js scene
     scene = new THREE.Scene();
     // Adding Milky Way Background
-    // scene.background = new THREE.TextureLoader().load("../images/stars.jpg");
     // scene.fog = new THREE.Fog( 0x556A83, 0, 550 );
 
     // Add a camera so we can view the scene
@@ -101,15 +63,14 @@ function createScene(canvas)
     camera.position.set(0, 55, -350);
     scene.add(camera);
 
-    // var light = new THREE.AmbientLight( 0xffffff );
-    // scene.add(light);
+    var light = new THREE.AmbientLight( 0xffffff );
+    scene.add(light);
 
     orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Create a texture map
     let map = new THREE.TextureLoader().load(floorUrl);
     map.wrapS = map.wrapT = THREE.RepeatWrapping;
-    // map.repeat.set(2);
 
     let color = 0xffffff;
 
@@ -129,13 +90,20 @@ function createScene(canvas)
     document.addEventListener('mousedown', onDocumentMouseDown);
     raycaster = new THREE.Raycaster();
 
-    // loadGLTFWolf(scene);
-    // loadGLTFDoor(scene);
-    loadObjCthulu(scene, 0, 0, -500, 0);
-    loadObjGargoyle(scene, 0, 0, 0);
-    // createTrees(scene);
-    loadObjIceberg(scene, 0, 0, 100);
+    loadGLTFDoor(scene);
+    loadObjCthulu(scene, 0, -250, -1200, 0);
     createTorchs(scene);
+    loadObjIcebergs(scene);
+    createGargoyles(scene);
+}
+    
+function loadObjIcebergs(scene){
+    let x, z;
+    for(let i = 0; i < 30; i++){
+        x = Math.floor(Math.random() * 5000) - 2500;
+        z = Math.floor(Math.random() * 5000) - 2500;
+        loadObjIceberg(scene, x, 0, z);
+    }
 }
 
 function createTorchs(scene){
@@ -143,12 +111,34 @@ function createTorchs(scene){
     loadObjTorch(scene, -300, -2, 0);
 }
 
+function createGargoyles(scene){
+    loadObjGargoyle(scene, -2700, 0, -2700, Math.PI/4);
+    for(let i = -2200; i < 2700; i += 500){
+        loadObjGargoyle(scene, i, 0, -2700, 0);
+    }
+    loadObjGargoyle(scene, 2700, 0, -2700, -Math.PI/4);
+
+
+    loadObjGargoyle(scene, -2700, 0, 2700, Math.PI - Math.PI/4);
+    for(let i = -2200; i < 2700; i += 500){
+        loadObjGargoyle(scene, i, 0, 2700, Math.PI);
+    }
+    loadObjGargoyle(scene, 2700, 0, 2700, Math.PI + Math.PI/4);
+
+    for(let i = -2200; i < 2700; i += 500){
+        loadObjGargoyle(scene, -2700, 0, i, Math.PI - Math.PI/2);
+    }
+
+    for(let i = -2200; i < 2700; i += 500){
+        loadObjGargoyle(scene, 2700, 0, i, Math.PI + Math.PI/2);
+    }
+
+}
+
 function animate() {
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
-    if(wolfAnimations["04_Idle"])
-        wolfAnimations["04_Idle"].getMixer().update(deltat * 0.001);
 }
 
 function run() 

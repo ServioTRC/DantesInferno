@@ -329,3 +329,4 @@ function onKeyUp( event ) {
 // Ponerle límites de movimiento
 // Pantalla de loading
 // Keyframes a luz para simular fuego (cambios entre naranjas y rojos)
+// Cambiar el link de click en la puerta

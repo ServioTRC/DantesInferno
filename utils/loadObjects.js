@@ -96,8 +96,7 @@ async function loadObjFire(scene, x, y, z)
         fire.position.y = y;
         
 
-        // let light = new THREE.PointLight( 0xfe4c00, 2.5, 0);
-        let light = new THREE.PointLight( 0xffffff, 2.5, 0);
+        let light = new THREE.PointLight( 0xfe4c00, 2.5, 0);
         light.position.set(x, y+10, z);
 
         scene.add(light);
@@ -210,38 +209,38 @@ async function loadObjCthulu(scene, x, y, z, rotation_z)
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let bear = await objPromiseLoader.load('../models/cthulhu/cthulu.obj');
-        let texture = new THREE.TextureLoader().load("../images/grass_texture.jpg");
+        let cthulu = await objPromiseLoader.load('../models/cthulhu/cthulu.obj');
+        let texture = new THREE.TextureLoader().load("../images/reptile_skin.jpg");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        bear.traverse(function (child) {
+        cthulu.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
                 child.material.map = texture;
             }
         });
-        bear.scale.set(10000, 10000, 10000);
-        bear.position.z = z;
-        bear.position.x = x;
-        bear.position.y = y;
-        bear.rotation.y -= rotation_z;
-        scene.add(bear);
+        cthulu.scale.set(50000, 50000, 50000);
+        cthulu.position.z = z;
+        cthulu.position.x = x;
+        cthulu.position.y = y;
+        cthulu.rotation.y -= rotation_z;
+        scene.add(cthulu);
     }
     catch (err) {
         return onError(err);
     }
 }
 
-async function loadObjGargoyle(scene, x, y, z)
+async function loadObjGargoyle(scene, x, y, z, rotation_y)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let torch = await objPromiseLoader.load('../models/gargoyle/Gargoyle.obj');
-        let texture = new THREE.TextureLoader().load("../images/grass_texture.jpg"); // Ponerlo bien
+        let gargoyle = await objPromiseLoader.load('../models/gargoyle/Gargoyle.obj');
+        let texture = new THREE.TextureLoader().load("../images/stone_texture.jpg"); // Ponerlo bien
         let normalMap = new THREE.TextureLoader().load("../models/gargoyle/Gargoyle_normals.jpg");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        torch.traverse(function (child) {
+        gargoyle.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
@@ -249,13 +248,14 @@ async function loadObjGargoyle(scene, x, y, z)
                 child.material.normalMap = normalMap;
             }
         });
-        torch.scale.set(5, 5, 5);
-        torch.position.z = z;
-        torch.position.x = x;
-        torch.position.y = y;
-        torch.castShadow = false;
-        torch.receiveShadow = true;
-        scene.add(torch);
+        gargoyle.scale.set(5, 5, 5);
+        gargoyle.position.z = z;
+        gargoyle.position.x = x;
+        gargoyle.position.y = y;
+        gargoyle.rotation.y += rotation_y;
+        gargoyle.castShadow = false;
+        gargoyle.receiveShadow = true;
+        scene.add(gargoyle);
     }
     catch (err) {
         return onError(err);
@@ -277,7 +277,7 @@ async function loadObjIceberg(scene, x, y, z)
                 child.material.map = texture;
             }
         });
-        torch.scale.set(2, 2, 2);
+        torch.scale.set(20, 20, 20);
         torch.position.z = z;
         torch.position.x = x;
         torch.position.y = y;
