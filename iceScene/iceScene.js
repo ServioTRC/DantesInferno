@@ -61,6 +61,20 @@ function createScene(canvas)
     // Add a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.position.set(0, 55, -350);
+    var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
+    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var sphere = new THREE.Mesh( geometry, material );
+    camera.add(sphere);
+    sphere.position.set( 0, 0, -30 );
+
+    var spotLight = new THREE.SpotLight( 0xffffff, 5, 500, Math.PI);
+    spotLight.position.copy( sphere.position );
+    spotLight.castShadow = true;
+    spotLight.shadow.camera.near = 500;
+    spotLight.shadow.camera.far = 4000;
+    spotLight.shadow.camera.fov = 30;
+    spotLight.target = sphere;
+    camera.add(spotLight);
     scene.add(camera);
 
     var light = new THREE.AmbientLight( 0xffffff );
@@ -91,10 +105,10 @@ function createScene(canvas)
     raycaster = new THREE.Raycaster();
 
     loadGLTFDoor(scene);
-    loadObjCthulu(scene, 0, -250, -1200, 0);
-    createTorchs(scene);
-    loadObjIcebergs(scene);
-    createGargoyles(scene);
+    // loadObjCthulu(scene, 0, -250, -1200, 0);
+    // createTorchs(scene);
+    // loadObjIcebergs(scene);
+    // createGargoyles(scene);
 }
     
 function loadObjIcebergs(scene){
