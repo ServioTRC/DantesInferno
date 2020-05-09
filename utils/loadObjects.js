@@ -289,3 +289,65 @@ async function loadObjIceberg(scene, x, y, z)
         return onError(err);
     }
 }
+
+async function loadObjMoster(scene, x, y, z)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let torch = await objPromiseLoader.load('../models/Librarian/Librarian.obj');
+        let texture = new THREE.TextureLoader().load("../models/Librarian/tex/act_bibliotekar.jpg");
+        let normalMap = new THREE.TextureLoader().load("../models/Librarian/tex/act_bibliotekar norm.jpg");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        console.log(torch);
+        torch.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+                child.material.normalMap = normalMap;
+            }
+        });
+        torch.scale.set(2, 2, 2);
+        torch.position.z = z;
+        torch.position.x = x;
+        torch.position.y = y;
+        torch.castShadow = false;
+        torch.receiveShadow = true;
+        scene.add(torch);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}
+
+async function loadObjRockMoster(scene, x, y, z)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let torch = await objPromiseLoader.load('../models/rock_monster/Stone.obj');
+        let texture = new THREE.TextureLoader().load("../models/rock_monster/diffuso.tif");
+        let normalMap = new THREE.TextureLoader().load("../models/rock_monster/normal.png");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        console.log(torch);
+        torch.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+                child.material.normalMap = normalMap;
+            }
+        });
+        torch.scale.set(20, 20, 20);
+        torch.position.z = z;
+        torch.position.x = x;
+        torch.position.y = y;
+        torch.castShadow = false;
+        torch.receiveShadow = true;
+        scene.add(torch);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}

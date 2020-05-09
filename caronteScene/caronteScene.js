@@ -216,9 +216,9 @@ function createScene(canvas)
     document.addEventListener('mousedown', onDocumentMouseDown);
     raycaster = new THREE.Raycaster();
 
-    // loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4);
+    loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4);
     loadObjTorchMoving(scene, -2750, -2, -2750);
-    // loadObjDeath(scene, -2850, 0, -2850, Math.PI/4);
+    loadObjDeath(scene, -2850, 0, -2850, Math.PI/4);
     // loadGLTFDoor(scene);
     createTorchs(scene);
 }
@@ -287,8 +287,8 @@ function onDocumentMouseDown(event)
     console.log(intersects);
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
-        // if(intersects[0].distance < 800)
-        //     window.location = '../finalScene/finalScene.html'
+        if(intersects[0].distance < 800)
+            window.location = '../cerberusScene/cerberusScene.html'
     }
 }
 

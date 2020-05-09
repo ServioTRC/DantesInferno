@@ -265,7 +265,7 @@ function onDocumentMouseDown(event)
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800)
-            window.location = '../finalScene/finalScene.html'
+            window.location = '../caronteScene/caronteScene.html'
     }
 }
 
