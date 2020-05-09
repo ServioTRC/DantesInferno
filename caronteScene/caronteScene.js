@@ -3,9 +3,9 @@ scene = null,
 camera = null;
 
 let floorUrl = "../images/solid_magma.png";
-let door, death, boat, boatAnimations = {}, boatTorch, boatTorchAnimation;
+let door, death, boat, boatAnimations = {}, boatTorch, boatTorchAnimation, fire, light;
 let penguinObj, raycaster, mesh, uniforms;
-let boat_death_torch_obj = new THREE.Group(), boat_death_torch_animator = new KF.KeyFrameAnimator;
+let boat_death_torch_animator = new KF.KeyFrameAnimator;
 let mouse = new THREE.Vector2();
 
 let currentTime = Date.now();
@@ -18,28 +18,52 @@ function createBoatAnimator(){
             [{ 
                 keys:[0, 1], 
                 values:[
-                    {x: -2800, y: 0, z: -2800},
-                    {x: 0, y: 0, z: 0},
+                    {x: -2850, z: -2850},
+                    {x: -670, z: -670},
                 ],
                 target:death.position
             },
             { 
                 keys:[0, 1], 
                 values:[
-                    {x: -2800, y: 0, z: -2800},
-                    {x: 0, y: 0, z: 0},
+                    {x: -2800, z: -2800},
+                    {x: -620, z: -620},
                 ],
                 target:boat.position
             },
             { 
                 keys:[0, 1], 
                 values:[
-                    {x: -2800, y: 0, z: -2800},
-                    {x: 0, y: 0, z: 0},
+                    {x: -2750, z: -2750},
+                    {x: -570, z: -570},
                 ],
                 target:torch.position
+            },
+            { 
+                keys:[0, 1], 
+                values:[
+                    {x: -2800, z: -2800},
+                    {x: -620, z: -620},
+                ],
+                target:camera.position
+            },
+            { 
+                keys:[0, 1], 
+                values:[
+                    {x: -2750, z: -2750},
+                    {x: -570, z: -570},
+                ],
+                target:fire.position
+            },
+            { 
+                keys:[0, 1], 
+                values:[
+                    {x: -2750, z: -2750},
+                    {x: -570, z: -570},
+                ],
+                target:light.position
             }],
-        duration: 30 * 1000,
+        duration: 1 * 1000,
     });
     created = true;
     boat_death_torch_animator.start();
@@ -116,7 +140,6 @@ async function loadGLTFDoor(scene)
 
 function createScene(canvas) 
 {    
-
     // Create the Three.js renderer and attach it to our canvas
     renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true, delta: true} );
 
@@ -132,17 +155,16 @@ function createScene(canvas)
     scene = new THREE.Scene();
     // Adding Milky Way Background
     scene.background = new THREE.TextureLoader().load("../images/far_volcan.jpg");
-    // scene.fog = new THREE.Fog( 0x556A83, 0, 550 );
 
     // Add a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.set(0, 55, -350);
+    camera.position.set(0, 100, -350);
     scene.add(camera);
 
     orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    var light = new THREE.AmbientLight( 0xffffff );
-    scene.add(light);
+    // var light = new THREE.AmbientLight( 0xffffff );
+    // scene.add(light);
 
     // Create a texture map
     let map = new THREE.TextureLoader().load(floorUrl);
@@ -169,7 +191,7 @@ function createScene(canvas)
         fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
         transparent:true,
     } );
-    // let mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color:color, map:map, transparent: true}));
+
     mesh = new THREE.Mesh(geometry, material);
 
     mesh.rotation.x = -Math.PI / 2;
@@ -194,18 +216,39 @@ function createScene(canvas)
     document.addEventListener('mousedown', onDocumentMouseDown);
     raycaster = new THREE.Raycaster();
 
-    loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4);
-    loadObjTorch(scene, -2750, -2, -2750);
-    loadObjDeath(scene, -2850, 0, -2850, Math.PI/4);
-    boat_death_torch_animator.start();
-    // scene.add(boat_death_torch_obj);
+    // loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4);
+    loadObjTorchMoving(scene, -2750, -2, -2750);
+    // loadObjDeath(scene, -2850, 0, -2850, Math.PI/4);
+    // loadGLTFDoor(scene);
+    createTorchs(scene);
+}
+
+function createTorchs(scene){
+    loadObjTorch(scene, 2500, -2, 1250);
+    loadObjTorch(scene, 1250, -2, 1250);
+    loadObjTorch(scene, 0, -2, 1250);
+    loadObjTorch(scene, -1250, -2, 1250);
+    loadObjTorch(scene, -2500, -2, 1250);
+
+    // loadObjTorch(scene, 2500, -2, 2500);
+    // loadObjTorch(scene, 1250, -2, 2500);
+    // loadObjTorch(scene, 0, -2, 2500);
+    // loadObjTorch(scene, -1250, -2, 2500);
+    // loadObjTorch(scene, -2500, -2, 2500);
+
+    // loadObjTorch(scene, 2500, -2, 0);
+    // loadObjTorch(scene, 1250, -2, 0);
+    // loadObjTorch(scene, 0, -2, 0);
+    // loadObjTorch(scene, -1250, -2, 0);
+    // loadObjTorch(scene, -2500, -2, 0);
 }
 
 function animate() {
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
-    if(boatAnimations && boatAnimations["0movement"] && boat_death_torch_animator && boat_death_torch_animator.running){
+    //&& boat_death_torch_animator && boat_death_torch_animator.running
+    if(boatAnimations && boatAnimations["0movement"] ){
         boatAnimations["0movement"].getMixer().update(deltat * 0.001);
     }
     let fract = deltat / duration;
@@ -217,8 +260,6 @@ function animate() {
     if(created){
         KF.update();
     }
-    // console.log(boat_death_torch_obj.position.z);
-    // boat_death_torch_obj.position.z += fract * 1000;
 }
 
 function run() 
@@ -280,7 +321,7 @@ async function loadObjDeath(scene, x, y, z, rotation)
     }
 }
 
-async function loadObjTorch(scene, x, y, z)
+async function loadObjTorchMoving(scene, x, y, z)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
@@ -305,7 +346,7 @@ async function loadObjTorch(scene, x, y, z)
         torch.position.y = y;
         torch.castShadow = false;
         torch.receiveShadow = true;
-        await loadObjFire(scene, x, 53, z);
+        await loadObjFireMobile(scene, x, 53, z);
         scene.add(torch);
     }
     catch (err) {
@@ -313,12 +354,12 @@ async function loadObjTorch(scene, x, y, z)
     }
 }
 
-async function loadObjFire(scene, x, y, z)
+async function loadObjFireMobile(scene, x, y, z)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let fire = await objPromiseLoader.load('../models/fire/fire.obj');
+        fire = await objPromiseLoader.load('../models/fire/fire.obj');
         let texture = new THREE.TextureLoader().load("../models/fire/color_emissive.png");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         fire.traverse(function (child) {
@@ -334,7 +375,7 @@ async function loadObjFire(scene, x, y, z)
         fire.position.y = y;
         
 
-        let light = new THREE.PointLight( 0xfe4c00, 2.5, 0);
+        light = new THREE.PointLight( 0xfe4c00, 2.5, 0);
         light.position.set(x, y+10, z);
 
         scene.add(light);
@@ -344,3 +385,7 @@ async function loadObjFire(scene, x, y, z)
         return onError(err);
     }
 }
+
+//TODO
+//Agregar controles y fotos
+//Agregar seguimiento de la cámara
