@@ -6,7 +6,7 @@ let floorUrl = "../images/lava_floor.jpg";
 let wolf, resultGLTF, wolfAnimations = {}, resultDoor, door, resultTree, tree;
 let penguinObj, raycaster;
 let mouse = new THREE.Vector2();
-
+var snd = new Audio("../sounds/gong.mp3");
 
 let currentTime = Date.now();
 
@@ -131,7 +131,7 @@ function createScene(canvas)
     raycaster = new THREE.Raycaster();
 
     // createTorchs(scene);
-    loadObjGong(scene, 0, 0, 0, Math.PI/2);
+    // loadObjGong(scene, 0, 0, 0, Math.PI/2);
     loadGLTFDoor(scene);
 }
 
@@ -144,8 +144,6 @@ function animate() {
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
-    if(wolfAnimations["04_Idle"])
-        wolfAnimations["04_Idle"].getMixer().update(deltat * 0.001);
 }
 
 function run() 
@@ -173,7 +171,10 @@ function onDocumentMouseDown(event)
     console.log(intersects);
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
-        if(intersects[0].distance < 800)
-            window.location = '../iceScene/iceScene.html'
+        if(intersects[0].distance < 800){
+            snd.currentTime=0;
+            snd.play();
+        }
+            // window.location = '../iceScene/iceScene.html'
     }
 }
