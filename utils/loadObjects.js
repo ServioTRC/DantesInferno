@@ -351,3 +351,32 @@ async function loadObjRockMoster(scene, x, y, z)
         return onError(err);
     }
 }
+
+async function loadObjGong(scene, x, y, z, rotation)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let torch = await objPromiseLoader.load('../models/gong/gong.obj');
+        let texture = new THREE.TextureLoader().load("../models/gong/Gong_v01.jpg");
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        torch.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+            }
+        });
+        torch.scale.set(2, 2, 2);
+        torch.position.z = z;
+        torch.position.x = x;
+        torch.position.y = y;
+        torch.rotation.x -= rotation;
+        torch.castShadow = false;
+        torch.receiveShadow = true;
+        scene.add(torch);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}

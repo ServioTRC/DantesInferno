@@ -131,7 +131,7 @@ function createScene(canvas)
     raycaster = new THREE.Raycaster();
 
     // createTorchs(scene);
-    loadObjRockMoster(scene, 0, 0, 0, 0);
+    loadObjGong(scene, 0, 0, 0, Math.PI/2);
     loadGLTFDoor(scene);
 }
 
