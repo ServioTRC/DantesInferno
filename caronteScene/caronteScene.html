@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js - pointerlock controls</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../css/threejsPointerLock.css" />
+
+        <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+        <script src="../libs/jquery-ui/jquery-ui.js"></script>
+
+		<script src="../libs/three.js/three.js"></script>
+        <script src="../libs/three.js/controls/OrbitControls.js"></script>
+
+        <script src="../libs/three.js/loaders/GLTFLoader.js"></script>
+        <script src="../libs/three.js/loaders/MTLLoader.js"></script>
+        <script src="../libs/three.js/loaders/OBJLoader.js"></script>
+        <script src="../libs/three.js/utils/promiseLoader.js"></script>
+        <script src="../libs/tween.js/tween.js"></script>
+        <script src="../libs/keyframe.js/keyframe.js"></script>
+
+        <script id="fragmentShader" type="x-shader/x-fragment">
+
+            uniform float time;
+        
+            //A sampler is a set of GLSL variable types. Variables of one of the sampler types must be uniforms or as function parameters. Each sampler in a program represents a single texture of a particular texture type.
+            uniform sampler2D noiseTexture;
+            uniform sampler2D glowTexture;
+        
+            varying vec2 texCoord;
+        
+            void main( void ) {
+        
+                /*Texture2D - Retrieves texels (i.e. the color) of a texture for the given coordinates.
+                vec4 texture2D(sampler2D sampler, vec2 coord)
+                sampler - specifies the sampler to which the texture from which texels will be retrieved is bound.
+                coord - specifies the texture coordinates at which texture will be sampled.
+                */
+                vec4 noise = texture2D( noiseTexture, texCoord );
+                
+                // Texture movements
+                vec2 T1 = texCoord + vec2( -0.75, -0.75 ) * time;
+                vec2 T2 = texCoord + vec2( -0.25, -0.25 ) * time; 
+        
+                // Texture position change based on noise texture
+                T1.x += noise.r * 5.0;
+                T1.y += noise.g * 5.0;
+                
+                // Relieve
+                float multi = 0.01;
+                T2.x += noise.r * multi;
+                T2.y += noise.b * multi;
+        
+                float alpha = texture2D( noiseTexture, T1 * 4.0 ).a;
+        
+                vec4 color = texture2D( glowTexture, T2 );
+        
+                vec4 newColor = vec4( alpha, 0.2, 1, alpha ) + ( color * color );
+                vec4 temp = newColor;
+                
+                gl_FragColor = temp * 1.5;
+            }
+        
+        </script>
+        
+        <script id="vertexShader" type="x-shader/x-vertex">
+        
+            varying vec2 texCoord;
+        
+            void main()
+            {
+                texCoord = uv;
+                vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+                gl_Position = projectionMatrix * mvPosition;
+            }
+        
+        </script>
+
+        <script src="../utils/loadObjects.js"></script>
+        <script src="../utils/screenHandler.js"></script>
+        <script src="caronteScene.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(
+                function() {
+    
+                    var canvas = document.getElementById("webglcanvas");
+    
+                    // create the scene
+                    createScene(canvas);
+                    
+                    run();
+                }
+            );
+        
+        </script>
+
+    </head>
+    
+	<body>
+
+        <div id="container">
+            <canvas id="webglcanvas"></canvas>
+        </div>
+        
+	</body>
+</html>
