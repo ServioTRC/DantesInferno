@@ -1,0 +1,63 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v5.0.639693989)
+
+newmtl material
+Kd 0.6705882 0.6901961 0.80000001
+Ka 0.1 0.1 0.1
+Ks 0.40000001 0.40000001 0.40000001
+Ke 0 0 0
+Ni 1
+Ns 10
+illum 2
+
+newmtl edge_color000255
+Kd 0.60000002 0.60000002 0.60000002
+Ka 0.1 0.1 0.1
+Ks 0.40000001 0.40000001 0.40000001
+Ke 0 0 0
+d 1
+Ni 1
+Ns 10
+illum 2
+
+newmtl m21
+Kd 1 1 1
+Ka 0.1 0.1 0.1
+Ks 0.40000001 0.40000001 0.40000001
+Ke 0 0 0
+Ni 1
+Ns 10
+illum 2
+map_Kd model/m21.tga
+
+newmtl m18
+Kd 1 1 1
+Ka 0.1 0.1 0.1
+Ks 0.40000001 0.40000001 0.40000001
+Ke 0 0 0
+Ni 1
+Ns 10
+illum 2
+map_Kd model/m18.tga
+
+newmtl m20
+Kd 1 1 1
+Ka 0.1 0.1 0.1
+Ks 0.40000001 0.40000001 0.40000001
+Ke 0 0 0
+d 1
+Ni 1
+Ns 10
+illum 2
+map_Kd model/m20.tga
+map_d model/m20.tga
+
+newmtl Color_002
+Kd 0.35686269 0.35686269 0.35686269
+Ka 0.1 0.1 0.1
+Ks 0.40000001 0.40000001 0.40000001
+Ke 0 0 0
+Ni 1
+Ns 10
+illum 2
+

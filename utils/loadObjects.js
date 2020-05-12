@@ -380,3 +380,40 @@ async function loadObjGong(scene, x, y, z, rotation)
         return onError(err);
     }
 }
+
+async function loadObjCerberus(scene, x, y, z, rotation_x, rotation_y)
+{
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        let godzilla = await objPromiseLoader.load('../models/cerberus/cerberus.obj');
+        let texture = new THREE.TextureLoader().load("../models/cerberus/model/m18.jpg");
+        // let godzilla = await objPromiseLoader.load('../models/cerberus/triangular/cerberus.obj');
+        // let texture = new THREE.TextureLoader().load("../models/cerberus/model/m18.jpg");
+        // let normalMap = new THREE.TextureLoader().load("../models/gargoyle/Gargoyle_normals.jpg");
+        // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        console.log(godzilla);
+        godzilla.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                // if(child.type != "LineSegments"){
+                    child.material.map = texture;
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                // }
+            }
+        });
+        godzilla.scale.set(2, 2, 2);
+        // godzilla.scale.set(20, 20, 20);
+        godzilla.position.z = z;
+        godzilla.position.x = x;
+        godzilla.position.y = y;
+        godzilla.rotation.x += rotation_x;
+        godzilla.rotation.z += rotation_y;
+        godzilla.castShadow = false;
+        godzilla.receiveShadow = true;
+        scene.add(godzilla);
+    }
+    catch (err) {
+        return onError(err);
+    }
+}

@@ -130,9 +130,10 @@ function createScene(canvas)
     document.addEventListener('mousedown', onDocumentMouseDown);
     raycaster = new THREE.Raycaster();
 
-    // createTorchs(scene);
+    createTorchs(scene);
     // loadObjGong(scene, 0, 0, 0, Math.PI/2);
     loadGLTFDoor(scene);
+    loadObjCerberus(scene, 2500, 0, 2000, -Math.PI/2, Math.PI/2);
 }
 
 function createTorchs(scene){
