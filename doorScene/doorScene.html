@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js - pointerlock controls</title>
+		<title>Hell Gate</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" href="../css/doorScene.css" />
@@ -20,8 +20,8 @@
         <script src="../libs/keyframe.js/keyframe.js"></script>
 
         <script src="../utils/loadObjects.js"></script>
+        <script src="../utils/animations.js"></script>
         <script src="../utils/screenHandler.js"></script>
-        <script src="reticle.js"></script>
         <script src="doorScene.js"></script>
 
         <script type="text/javascript">
@@ -43,11 +43,18 @@
 	<body>
 
         <div id="blocker">
-
 			<div id="instructions">
 				<span style="font-size:40px">Click to play</span>
 				<br />
-				(W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
+				(W, A, S, D = Move, MOUSE = Look around)
+            </div>
+        </div>
+
+        <div id="loading">
+			<div id="loading_text">
+                <span style="font-size:50px">LOADING</span>
+                </br>
+                <img src="../images/Preloader_1.gif"> 
             </div>
         </div>
 

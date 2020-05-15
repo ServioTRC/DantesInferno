@@ -62,8 +62,10 @@ async function loadObjTorch(scene, x, y, z)
         torch.position.y = y;
         torch.castShadow = false;
         torch.receiveShadow = true;
-        await loadObjFire(scene, x, 53, z);
+        let light = await loadObjFire(scene, x, 53, z);
         scene.add(torch);
+        await fireColorAnimator(light);
+        return torch;
     }
     catch (err) {
         return onError(err);
@@ -101,6 +103,7 @@ async function loadObjFire(scene, x, y, z)
 
         scene.add(light);
         scene.add(fire);
+        return light;
     }
     catch (err) {
         return onError(err);

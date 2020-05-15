@@ -18,6 +18,16 @@ let prevTime = performance.now();
 let velocity, direction;
 
 let currentTime = Date.now();
+let torchLoaded = false, wolfLoaded = false, doorLoaded = false, bearLoaded = false, treesLoaded = false;
+var door_snd = new Audio("../sounds/creaky_door.mp3");
+let deltax_change, deltaz_change;
+let loading = false;
+
+var forest_snd = new Audio("../sounds/forest.wav");
+forest_snd.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
 
 function initPointerLock()
 {
@@ -136,7 +146,7 @@ function createScene(canvas)
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.position.set(0, 55, -350);
     var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var material = new THREE.MeshBasicMaterial( {color: 0x407294} );
     var sphere = new THREE.Mesh( geometry, material );
     camera.add(sphere);
     sphere.position.set( 0, 0, -30 );
@@ -172,41 +182,51 @@ function createScene(canvas)
     initPointerLock();
 
 
-    loadGLTFWolf(scene);
-    loadGLTFDoor(scene);
-    createTrees(scene);
-    createTorchs(scene);
-    loadObjBear(scene, -300, 0, 900, Math.PI + Math.PI/6);
+    loadGLTFWolf(scene).then(() => {
+        wolfLoaded = true;
+    });
+    loadGLTFDoor(scene).then(() => {
+        doorLoaded = true;
+    });
+    createTrees(scene).then(() => {
+        treesLoaded = true;
+    });
+    createTorchs(scene).then(() => {
+        torchLoaded = true;
+    });
+    loadObjBear(scene, -300, 0, 900, Math.PI + Math.PI/6).then(() => {
+        bearLoaded = true;
+    });
 }
 
-function createTrees(scene){
+async function createTrees(scene){
     let x, z;
     let backNfront = 10, laterals = 50;
     for(let i = 0; i < laterals; i++){
         x = Math.floor(Math.random() * 900) + 500;
         z = Math.floor(Math.random() * 2800) - 1400;
-        loadObjTree(scene, x, 0, z);
+        await loadObjTree(scene, x, 0, z);
     }
     for(let i = 0; i < laterals; i++){
         x = Math.floor(Math.random() * -900) - 500;
         z = Math.floor(Math.random() * 2800) - 1400;
-        loadObjTree(scene, x, 0, z);
+        await loadObjTree(scene, x, 0, z);
     }
     for(let i = 0; i < backNfront; i++){
         x = Math.floor(Math.random() * -1000) + 500;
         z = Math.floor(Math.random() * 200) + 1200;
-        loadObjTree(scene, x, 0, z);
+        await loadObjTree(scene, x, 0, z);
     }
     for(let i = 0; i < backNfront; i++){
         x = Math.floor(Math.random() * -1000) + 500;
         z = Math.floor(Math.random() * -200) - 1200;
-        loadObjTree(scene, x, 0, z);
+        await loadObjTree(scene, x, 0, z);
     }
 }
 
-function createTorchs(scene){
-    loadObjTorch(scene, 300, -2, 0);
-    loadObjTorch(scene, -300, -2, 0);
+async function createTorchs(scene){
+    await loadObjTorch(scene, 300, -2, 0);
+    await loadObjTorch(scene, -300, -2, 0);
 }
 
 function animate() {
@@ -215,7 +235,17 @@ function animate() {
     currentTime = now;
     if(wolfAnimations["04_Idle"])
         wolfAnimations["04_Idle"].getMixer().update(deltat * 0.001);
-    
+    if(torchLoaded)
+        KF.update();
+}
+
+function removeLoading(){
+    let blocker = document.getElementById( 'loading' );
+    let instructions = document.getElementById( 'loading_text' );
+    blocker.style.display = 'none';
+    instructions.style.display = '';
+    loading = true;
+    forest_snd.play();
 }
 
 function run() 
@@ -223,9 +253,11 @@ function run()
     requestAnimationFrame(function() { run(); });
     
     animate();
-    // Update the camera controller
-    // orbitControls.update();
-    if ( controls.isLocked === true ) 
+
+    if(!loading && torchLoaded && wolfLoaded && doorLoaded && bearLoaded && treesLoaded)
+        removeLoading();
+
+    if ( controls.isLocked === true && torchLoaded && wolfLoaded && doorLoaded && bearLoaded && treesLoaded) 
     {
         let time = performance.now();
         let delta = ( time - prevTime ) / 1000;
@@ -236,12 +268,17 @@ function run()
         direction.z = Number( moveForward ) - Number( moveBackward );
         direction.x = Number( moveRight ) - Number( moveLeft );
 
-        direction.normalize(); // this ensures consistent movements in all directions
+        direction.normalize();
         if ( moveForward || moveBackward ) velocity.z -= direction.z * 4000.0 * delta;
         if ( moveLeft || moveRight ) velocity.x -= direction.x * 4000.0 * delta;
 
-        controls.moveRight( - velocity.x * delta );
-        controls.moveForward( - velocity.z * delta );
+        deltax_change = - velocity.x * delta;
+        deltaz_change = - velocity.z * delta;
+        if(camera.position.x + deltax_change * 3 > -1300 && camera.position.x + deltax_change * 3 < 1300 
+            && camera.position.z + deltaz_change * 3 > -1300 && camera.position.z + deltaz_change * 3 < 1300){
+            controls.moveRight(deltax_change);
+            controls.moveForward(deltaz_change);
+        }
 
         prevTime = time;
     }
@@ -265,7 +302,11 @@ function onDocumentMouseDown(event)
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800)
-            window.location = '../caronteScene/caronteScene.html'
+            door_snd.currentTime=0;
+            door_snd.play();
+            door_snd.onended = function() {
+                window.location = '../caronteScene/caronteScene.html'
+            }; 
     }
 }
 
@@ -322,11 +363,3 @@ function onKeyUp( event ) {
 
     }
 }
-
-
-// TODO:
-// Cambiar color de la retícula
-// Ponerle límites de movimiento
-// Pantalla de loading
-// Keyframes a luz para simular fuego (cambios entre naranjas y rojos)
-// Cambiar el link de click en la puerta
