@@ -1,4 +1,4 @@
-function fireColorAnimator(light){
+async function fireColorAnimator(light){
     let light_animator = new KF.KeyFrameAnimator;
     light_animator.init({
         interps:

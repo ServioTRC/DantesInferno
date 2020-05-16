@@ -150,7 +150,6 @@ function createScene(canvas)
     var sphere = new THREE.Mesh( geometry, material );
     camera.add(sphere);
     sphere.position.set( 0, 0, -30 );
-    // scene.add(sphere);
     scene.add(camera);
 
     // orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -300,7 +299,6 @@ function onDocumentMouseDown(event)
     let intersects = raycaster.intersectObject( door, true );
     console.log(intersects);
     if(intersects.length > 0){
-        console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800)
             door_snd.currentTime=0;
             door_snd.play();

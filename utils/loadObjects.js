@@ -1,10 +1,14 @@
+
+let tree_helper;
 async function loadObjTree(scene, x, y, z)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let tree = await objPromiseLoader.load('../models/arbol/Tree.obj');
-
+        let tree;
+        if(!tree_helper)
+            tree_helper = await objPromiseLoader.load('../models/arbol/Tree.obj');
+        tree = tree_helper.clone()
         let texture = new THREE.TextureLoader().load("../models/arbol/DB2X2_L01.png");
         let texture_2 = new THREE.TextureLoader().load("../models/arbol/bark_0004.jpg");
         let normalMap = new THREE.TextureLoader().load("../models/arbol/DB2X2_L02_NRM.png");
@@ -37,12 +41,16 @@ async function loadObjTree(scene, x, y, z)
     }
 }
 
+let torch_helper;
 async function loadObjTorch(scene, x, y, z)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let torch = await objPromiseLoader.load('../models/torch/torch.obj');
+        let torch;
+        if(!torch_helper)
+            torch_helper = await objPromiseLoader.load('../models/torch/torch.obj');
+        torch = torch_helper.clone();
         let texture = new THREE.TextureLoader().load("../models/torch/color.png");
         let normalMap = new THREE.TextureLoader().load("../models/torch/normal.png");
         let specularMap = new THREE.TextureLoader().load("../models/torch/specular.png");
@@ -234,12 +242,16 @@ async function loadObjCthulu(scene, x, y, z, rotation_z)
     }
 }
 
+let gargoyle_helper;
 async function loadObjGargoyle(scene, x, y, z, rotation_y)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let gargoyle = await objPromiseLoader.load('../models/gargoyle/Gargoyle.obj');
+        let gargoyle;
+        if(!gargoyle_helper)
+            gargoyle_helper = await objPromiseLoader.load('../models/gargoyle/Gargoyle.obj');
+        gargoyle = gargoyle_helper.clone();
         let texture = new THREE.TextureLoader().load("../images/stone_texture.jpg"); // Ponerlo bien
         let normalMap = new THREE.TextureLoader().load("../models/gargoyle/Gargoyle_normals.jpg");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -265,12 +277,16 @@ async function loadObjGargoyle(scene, x, y, z, rotation_y)
     }
 }
 
+let iceberg_loader;
 async function loadObjIceberg(scene, x, y, z)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let torch = await objPromiseLoader.load('../models/iceberg/Mountain.obj');
+        let torch;
+        if(!iceberg_loader)
+            iceberg_loader = await objPromiseLoader.load('../models/iceberg/Mountain.obj');
+        torch = iceberg_loader.clone();
         let texture = new THREE.TextureLoader().load("../images/ice.jpg");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         torch.traverse(function (child) {
@@ -293,17 +309,20 @@ async function loadObjIceberg(scene, x, y, z)
     }
 }
 
-async function loadObjMoster(scene, x, y, z)
+let monster_helper;
+async function loadObjMonster(scene, x, y, z, rotation)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let torch = await objPromiseLoader.load('../models/Librarian/Librarian.obj');
+        let monster;
+        if(!monster_helper)
+            monster_helper = await objPromiseLoader.load('../models/Librarian/Librarian.obj');
+        monster = monster_helper.clone();
         let texture = new THREE.TextureLoader().load("../models/Librarian/tex/act_bibliotekar.jpg");
         let normalMap = new THREE.TextureLoader().load("../models/Librarian/tex/act_bibliotekar norm.jpg");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        console.log(torch);
-        torch.traverse(function (child) {
+        monster.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
@@ -311,30 +330,34 @@ async function loadObjMoster(scene, x, y, z)
                 child.material.normalMap = normalMap;
             }
         });
-        torch.scale.set(2, 2, 2);
-        torch.position.z = z;
-        torch.position.x = x;
-        torch.position.y = y;
-        torch.castShadow = false;
-        torch.receiveShadow = true;
-        scene.add(torch);
+        monster.scale.set(2, 2, 2);
+        monster.position.z = z;
+        monster.position.x = x;
+        monster.position.y = y;
+        monster.rotation.y += rotation;
+        monster.castShadow = false;
+        monster.receiveShadow = true;
+        scene.add(monster);
     }
     catch (err) {
         return onError(err);
     }
 }
 
-async function loadObjRockMoster(scene, x, y, z)
+let rock_monster_helper;
+async function loadObjRockMoster(scene, x, y, z, rotation)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let torch = await objPromiseLoader.load('../models/rock_monster/Stone.obj');
+        let rock_monster;
+        if(!rock_monster_helper)
+            rock_monster_helper = await objPromiseLoader.load('../models/rock_monster/Stone.obj');
+        rock_monster = rock_monster_helper.clone();
         let texture = new THREE.TextureLoader().load("../models/rock_monster/diffuso.tif");
         let normalMap = new THREE.TextureLoader().load("../models/rock_monster/normal.png");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        console.log(torch);
-        torch.traverse(function (child) {
+        rock_monster.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
@@ -342,42 +365,45 @@ async function loadObjRockMoster(scene, x, y, z)
                 child.material.normalMap = normalMap;
             }
         });
-        torch.scale.set(20, 20, 20);
-        torch.position.z = z;
-        torch.position.x = x;
-        torch.position.y = y;
-        torch.castShadow = false;
-        torch.receiveShadow = true;
-        scene.add(torch);
+        rock_monster.scale.set(100, 100, 100);
+        rock_monster.position.z = z;
+        rock_monster.position.x = x;
+        rock_monster.position.y = y;
+        rock_monster.rotation.y += rotation;
+        rock_monster.castShadow = false;
+        rock_monster.receiveShadow = true;
+        scene.add(rock_monster);
     }
     catch (err) {
         return onError(err);
     }
 }
 
-async function loadObjGong(scene, x, y, z, rotation)
+async function loadObjGong(scene, x, y, z)
 {
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let torch = await objPromiseLoader.load('../models/gong/gong.obj');
+        let gong = await objPromiseLoader.load('../models/gong/gong.obj');
         let texture = new THREE.TextureLoader().load("../models/gong/Gong_v01.jpg");
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        torch.traverse(function (child) {
+        gong.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
                 child.material.map = texture;
             }
         });
-        torch.scale.set(2, 2, 2);
-        torch.position.z = z;
-        torch.position.x = x;
-        torch.position.y = y;
-        torch.rotation.x -= rotation;
-        torch.castShadow = false;
-        torch.receiveShadow = true;
-        scene.add(torch);
+        gong.scale.set(0.25, 0.25, 0.25);
+        gong.position.z = z;
+        gong.position.x = x;
+        gong.position.y = y;
+        gong.rotation.x -= Math.PI/2;
+        gong.rotation.z -= Math.PI;
+        gong.castShadow = false;
+        gong.receiveShadow = true;
+        scene.add(gong);
+        return gong;
     }
     catch (err) {
         return onError(err);
@@ -389,32 +415,25 @@ async function loadObjCerberus(scene, x, y, z, rotation_x, rotation_y)
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
-        let godzilla = await objPromiseLoader.load('../models/cerberus/cerberus.obj');
+        let cerberus = await objPromiseLoader.load('../models/cerberus/cerberus.obj');
         let texture = new THREE.TextureLoader().load("../models/cerberus/model/m18.jpg");
-        // let godzilla = await objPromiseLoader.load('../models/cerberus/triangular/cerberus.obj');
-        // let texture = new THREE.TextureLoader().load("../models/cerberus/model/m18.jpg");
-        // let normalMap = new THREE.TextureLoader().load("../models/gargoyle/Gargoyle_normals.jpg");
-        // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        console.log(godzilla);
-        godzilla.traverse(function (child) {
+        cerberus.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-                // if(child.type != "LineSegments"){
-                    child.material.map = texture;
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                // }
+                child.material.map = texture;
+                child.castShadow = true;
+                child.receiveShadow = true;
             }
         });
-        godzilla.scale.set(2, 2, 2);
-        // godzilla.scale.set(20, 20, 20);
-        godzilla.position.z = z;
-        godzilla.position.x = x;
-        godzilla.position.y = y;
-        godzilla.rotation.x += rotation_x;
-        godzilla.rotation.z += rotation_y;
-        godzilla.castShadow = false;
-        godzilla.receiveShadow = true;
-        scene.add(godzilla);
+        cerberus.scale.set(2, 2, 2);
+        cerberus.position.z = z;
+        cerberus.position.x = x;
+        cerberus.position.y = y;
+        cerberus.rotation.x += rotation_x;
+        cerberus.rotation.z += rotation_y;
+        cerberus.castShadow = false;
+        cerberus.receiveShadow = true;
+        scene.add(cerberus);
+        return cerberus
     }
     catch (err) {
         return onError(err);

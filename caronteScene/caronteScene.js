@@ -9,7 +9,7 @@ let boat_death_torch_animator = new KF.KeyFrameAnimator;
 let mouse = new THREE.Vector2();
 
 let currentTime = Date.now();
-let duration = 5000;
+let duration = 5;
 let created = false;
 
 function createBoatAnimator(){
@@ -63,11 +63,10 @@ function createBoatAnimator(){
                 ],
                 target:light.position
             }],
-        duration: 1 * 1000,
+        duration: duration * 1000,
     });
     created = true;
     boat_death_torch_animator.start();
-    console.log("creado");
 }
 
 async function loadGLTFBoat(scene, x, y, z, rotation)
@@ -219,7 +218,7 @@ function createScene(canvas)
     loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4);
     loadObjTorchMoving(scene, -2750, -2, -2750);
     loadObjDeath(scene, -2850, 0, -2850, Math.PI/4);
-    // loadGLTFDoor(scene);
+    loadGLTFDoor(scene);
     createTorchs(scene);
 }
 
@@ -230,25 +229,18 @@ function createTorchs(scene){
     loadObjTorch(scene, -1250, -2, 1250);
     loadObjTorch(scene, -2500, -2, 1250);
 
-    // loadObjTorch(scene, 2500, -2, 2500);
-    // loadObjTorch(scene, 1250, -2, 2500);
-    // loadObjTorch(scene, 0, -2, 2500);
-    // loadObjTorch(scene, -1250, -2, 2500);
-    // loadObjTorch(scene, -2500, -2, 2500);
-
-    // loadObjTorch(scene, 2500, -2, 0);
-    // loadObjTorch(scene, 1250, -2, 0);
-    // loadObjTorch(scene, 0, -2, 0);
-    // loadObjTorch(scene, -1250, -2, 0);
-    // loadObjTorch(scene, -2500, -2, 0);
+    loadObjTorch(scene, 2500, -2, 2500);
+    loadObjTorch(scene, 1250, -2, 2500);
+    loadObjTorch(scene, 0, -2, 2500);
+    loadObjTorch(scene, -1250, -2, 2500);
+    loadObjTorch(scene, -2500, -2, 2500);
 }
 
 function animate() {
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
-    //&& boat_death_torch_animator && boat_death_torch_animator.running
-    if(boatAnimations && boatAnimations["0movement"] ){
+    if(boatAnimations && boatAnimations["0movement"] && boat_death_torch_animator && boat_death_torch_animator.running){
         boatAnimations["0movement"].getMixer().update(deltat * 0.001);
     }
     let fract = deltat / duration;

@@ -4,12 +4,13 @@
 		<title>three.js - pointerlock controls</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <link rel="stylesheet" href="../css/threejsPointerLock.css" />
+        <link rel="stylesheet" href="../css/doorScene.css" />
         
 		<script src="../libs/three.js/three.js"></script>
         <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <script src="../libs/jquery-ui/jquery-ui.js"></script>
         <script src="../libs/three.js/controls/OrbitControls.js"></script>
+        <script src="../utils/animations.js"></script>
 
         <script src="../libs/three.js/loaders/GLTFLoader.js"></script>
         <script src="../libs/three.js/loaders/MTLLoader.js"></script>
@@ -39,6 +40,14 @@
     </head>
     
 	<body>
+
+        <div id="loading">
+			<div id="loading_text">
+                <span style="font-size:50px">LOADING</span>
+                </br>
+                <img src="../images/Preloader_1.gif"> 
+            </div>
+        </div>
 
         <div id="container">
             <canvas id="webglcanvas"></canvas>

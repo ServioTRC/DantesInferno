@@ -5,12 +5,13 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <link rel="stylesheet" href="../css/threejsPointerLock.css" />
+        <!-- <link rel="stylesheet" href="../css/threejsPointerLock.css" /> -->
 
         <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <script src="../libs/jquery-ui/jquery-ui.js"></script>
 
-		<script src="../libs/three.js/three.js"></script>
+        <script src="../libs/three.js/three.js"></script>
+        <script src="../utils/animations.js"></script>
         <script src="../libs/three.js/controls/OrbitControls.js"></script>
 
         <script src="../libs/three.js/loaders/GLTFLoader.js"></script>
@@ -40,8 +41,8 @@
                 vec4 noise = texture2D( noiseTexture, texCoord );
                 
                 // Texture movements
-                vec2 T1 = texCoord + vec2( -0.75, -0.75 ) * time;
-                vec2 T2 = texCoord + vec2( -0.25, -0.25 ) * time; 
+                vec2 T1 = texCoord + vec2( -0.000075, -0.000075 ) * time;
+                vec2 T2 = texCoord + vec2( -0.000025, -0.000025 ) * time; 
         
                 // Texture position change based on noise texture
                 T1.x += noise.r * 5.0;

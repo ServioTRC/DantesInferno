@@ -105,10 +105,10 @@ function createScene(canvas)
     raycaster = new THREE.Raycaster();
 
     loadGLTFDoor(scene);
-    // loadObjCthulu(scene, 0, -250, -1200, 0);
-    // createTorchs(scene);
-    // loadObjIcebergs(scene);
-    // createGargoyles(scene);
+    loadObjCthulu(scene, 0, -250, -1200, 0);
+    createTorchs(scene);
+    loadObjIcebergs(scene);
+    createGargoyles(scene);
 }
     
 function loadObjIcebergs(scene){
