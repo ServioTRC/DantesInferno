@@ -2,6 +2,15 @@ let renderer = null,
 scene = null, 
 camera = null;
 
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let canJump = false;
+let blocker,  instructions;
+let prevTime = performance.now();
+let velocity, direction;
+
 let floorUrl = "../images/lava_floor.jpg";
 let wolf, resultGLTF, wolfAnimations = {}, resultDoor, door, resultTree, tree;
 let penguinObj, raycaster;
@@ -14,8 +23,8 @@ fire_snd.addEventListener('ended', function() {
     this.currentTime = 0;
     this.play();
 }, false);
-let gong_scene, gong_clicked;
-let cerberus_loaded;
+let gong_scene, gong_clicked, gong_animator;
+let cerberus_loaded, cerberus_animator;
 let loaded_torches, door_loaded, monsters_loaded;
 let loading = false;
 
@@ -71,14 +80,23 @@ function createScene(canvas)
     scene = new THREE.Scene();
     // Adding Milky Way Background
     scene.background = new THREE.TextureLoader().load("../images/Volcano-eruption.jpg");
-    // scene.fog = new THREE.Fog( 0x556A83, 0, 550 );
 
     // Add a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.position.set(0, 55, -350);
+    var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
+    var material = new THREE.MeshBasicMaterial( {color: 0x407294} );
+    var sphere = new THREE.Mesh( geometry, material );
+    camera.add(sphere);
+    sphere.position.set( 0, 0, -30 );
     scene.add(camera);
 
-    orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+    velocity = new THREE.Vector3();
+    direction = new THREE.Vector3();
+
+    initPointerLock(scene, camera);
+    // Descomentar y comentar pointerlock
+    // orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Create a texture map
     let map = new THREE.TextureLoader().load(floorUrl);
@@ -100,6 +118,8 @@ function createScene(canvas)
 
     window.addEventListener( 'resize', onWindowResize);
     document.addEventListener('mousedown', onDocumentMouseDown);
+    document.addEventListener( 'keydown', onKeyDown, false );
+    document.addEventListener( 'keyup', onKeyUp, false );
     raycaster = new THREE.Raycaster();
 
     createTorchs(scene).then(()=>{
@@ -107,6 +127,9 @@ function createScene(canvas)
     });
     loadObjGong(scene, 0, 0, 2500, Math.PI/2).then((gong)=>{
         gong_scene = gong;
+        movingBelowAnimator(gong).then((animator)=>{
+            gong_animator = animator;
+        });
     });
     loadGLTFDoor(scene).then(()=>{
         door_loaded = true;
@@ -116,6 +139,9 @@ function createScene(canvas)
     });
     loadObjCerberus(scene, 2500, 0, 2000, -Math.PI/2, Math.PI/2).then((cerberus)=>{
         cerberus_loaded = cerberus;
+        movingForwardAnimator(cerberus).then((cerb_animator)=>{
+            cerberus_animator = cerb_animator;
+        });
     });
 }
 
@@ -144,9 +170,6 @@ async function createTorchs(scene){
 }
 
 function animate() {
-    let now = Date.now();
-    let deltat = now - currentTime;
-    currentTime = now;
     KF.update();
 }
 
@@ -156,14 +179,42 @@ function run()
     
     animate();
 
-    if(!loading && gong_scene && loaded_torches && door_loaded && monsters_loaded && cerberus_loaded)
+    if(!loading && gong_scene && loaded_torches && door_loaded && monsters_loaded && cerberus_loaded && gong_animator && cerberus_animator)
         removeLoading();
     
     // Render the scene
     renderer.render( scene, camera );
     
+    // COMENTAR FUNCIÓN PARA ORBIT
+    if ( controls.isLocked === true && loading) 
+    {
+        let time = performance.now();
+        let delta = ( time - prevTime ) / 1000;
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        direction.z = Number( moveForward ) - Number( moveBackward );
+        direction.x = Number( moveRight ) - Number( moveLeft );
+
+        direction.normalize();
+        if ( moveForward || moveBackward ) velocity.z -= direction.z * 4000.0 * delta;
+        if ( moveLeft || moveRight ) velocity.x -= direction.x * 4000.0 * delta;
+
+        deltax_change = - velocity.x * delta;
+        deltaz_change = - velocity.z * delta;
+        if(camera.position.x + deltax_change * 3 > -2800 && camera.position.x + deltax_change * 3 < 2800 
+            && camera.position.z + deltaz_change * 3 > -2800 && camera.position.z + deltaz_change * 3 < 2800){
+            controls.moveRight(deltax_change);
+            controls.moveForward(deltaz_change);
+        }
+
+        prevTime = time;
+    }
+
     // Update the camera controller
-    orbitControls.update();
+    // DESCOMENTAR
+    // orbitControls.update();
 }
 
 function removeLoading(){
@@ -194,6 +245,8 @@ function onDocumentMouseDown(event)
             gong_clicked = true;
             gong_snd.onended = function() {
                 bark_snd.play();
+                gong_animator.start();
+                cerberus_animator.start();
             };
         }
 
@@ -214,5 +267,3 @@ function onDocumentMouseDown(event)
 
 // TODO
 // Agregar personajes
-// Cambiar controles
-// Animación de cerberus que se mueve y del gong que desaparece

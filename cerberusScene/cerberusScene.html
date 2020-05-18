@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js - pointerlock controls</title>
+		<title>Cerberus Gate</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" href="../css/doorScene.css" />
@@ -10,6 +10,7 @@
         <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <script src="../libs/jquery-ui/jquery-ui.js"></script>
         <script src="../libs/three.js/controls/OrbitControls.js"></script>
+        <script src="../libs/three.js/controls/PointerLockControls.js"></script>
         <script src="../utils/animations.js"></script>
 
         <script src="../libs/three.js/loaders/GLTFLoader.js"></script>
@@ -40,6 +41,15 @@
     </head>
     
 	<body>
+
+        <!-- COMENTAR PARA ORBIT -->
+        <div id="blocker">
+			<div id="instructions">
+				<span style="font-size:40px">Click to play</span>
+				<br />
+				(W, A, S, D = Move, MOUSE = Look around)
+            </div>
+        </div>
 
         <div id="loading">
 			<div id="loading_text">
