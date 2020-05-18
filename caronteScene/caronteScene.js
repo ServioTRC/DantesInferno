@@ -8,9 +8,39 @@ let penguinObj, raycaster, mesh, uniforms;
 let boat_death_torch_animator = new KF.KeyFrameAnimator;
 let mouse = new THREE.Vector2();
 
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let canJump = false;
+let blocker,  instructions;
+let prevTime = performance.now();
+let velocity, direction;
+
+
+var door_snd = new Audio("../sounds/creaky_door.mp3");
 let currentTime = Date.now();
-let duration = 5;
+let duration = 30;
 let created = false;
+
+let boatLoaded, deathLoaded, doorLoaded, loading = false, torchesLoaded;
+let boat_moved = false, finished = false;
+
+var waves_snd = new Audio("../sounds/waves.wav");
+waves_snd.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+
+function removeLoading(){
+    let blocker = document.getElementById( 'loading' );
+    let instructions = document.getElementById( 'loading_text' );
+    blocker.style.display = 'none';
+    instructions.style.display = '';
+    loading = true;
+    waves_snd.play();
+    createBoatAnimator();
+}
 
 function createBoatAnimator(){
     boat_death_torch_animator.init({ 
@@ -34,39 +64,17 @@ function createBoatAnimator(){
             { 
                 keys:[0, 1], 
                 values:[
-                    {x: -2750, z: -2750},
-                    {x: -570, z: -570},
-                ],
-                target:torch.position
-            },
-            { 
-                keys:[0, 1], 
-                values:[
                     {x: -2800, z: -2800},
                     {x: -620, z: -620},
                 ],
                 target:camera.position
-            },
-            { 
-                keys:[0, 1], 
-                values:[
-                    {x: -2750, z: -2750},
-                    {x: -570, z: -570},
-                ],
-                target:fire.position
-            },
-            { 
-                keys:[0, 1], 
-                values:[
-                    {x: -2750, z: -2750},
-                    {x: -570, z: -570},
-                ],
-                target:light.position
-            }],
+            }
+        ],
         duration: duration * 1000,
     });
     created = true;
     boat_death_torch_animator.start();
+    boat_moved = true;
 }
 
 async function loadGLTFBoat(scene, x, y, z, rotation)
@@ -157,10 +165,19 @@ function createScene(canvas)
 
     // Add a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.set(0, 100, -350);
+    camera.position.set(-2800, 100, -2800);
+    camera.rotation.y -= Math.PI;
+    var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
+    var material_2 = new THREE.MeshBasicMaterial( {color: 0x407294} );
+    var sphere = new THREE.Mesh( geometry, material_2 );
+    camera.add(sphere);
+    sphere.position.set( 0, 0, -30 );
     scene.add(camera);
 
-    orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+    velocity = new THREE.Vector3();
+    direction = new THREE.Vector3();
+
+    // orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // var light = new THREE.AmbientLight( 0xffffff );
     // scene.add(light);
@@ -213,45 +230,58 @@ function createScene(canvas)
 
     window.addEventListener( 'resize', onWindowResize);
     document.addEventListener('mousedown', onDocumentMouseDown);
+    document.addEventListener( 'keydown', onKeyDown, false );
+    document.addEventListener( 'keyup', onKeyUp, false );
     raycaster = new THREE.Raycaster();
+    initPointerLock(scene, camera);
 
-    loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4);
-    loadObjTorchMoving(scene, -2750, -2, -2750);
-    loadObjDeath(scene, -2850, 0, -2850, Math.PI/4);
-    loadGLTFDoor(scene);
-    createTorchs(scene);
+    loadGLTFBoat(scene, -2800, 0, -2800, Math.PI+Math.PI/4).then(()=>{
+        boatLoaded = true;
+    });
+    loadObjDeath(scene, -2850, 0, -2850, Math.PI/4).then(()=>{
+        deathLoaded = true;
+    });
+    loadGLTFDoor(scene).then(()=>{
+        doorLoaded = true;
+    });
+    createTorchs(scene).then(()=>{
+        torchesLoaded = true;
+    });
 }
 
-function createTorchs(scene){
-    loadObjTorch(scene, 2500, -2, 1250);
-    loadObjTorch(scene, 1250, -2, 1250);
-    loadObjTorch(scene, 0, -2, 1250);
-    loadObjTorch(scene, -1250, -2, 1250);
-    loadObjTorch(scene, -2500, -2, 1250);
+async function createTorchs(scene){
+    await loadObjTorch(scene, 2500, -2, 1250);
+    await loadObjTorch(scene, 1250, -2, 1250);
+    await loadObjTorch(scene, 0, -2, 1250);
+    await loadObjTorch(scene, -1250, -2, 1250);
+    await loadObjTorch(scene, -2500, -2, 1250);
 
-    loadObjTorch(scene, 2500, -2, 2500);
-    loadObjTorch(scene, 1250, -2, 2500);
-    loadObjTorch(scene, 0, -2, 2500);
-    loadObjTorch(scene, -1250, -2, 2500);
-    loadObjTorch(scene, -2500, -2, 2500);
+    await loadObjTorch(scene, 2500, -2, 2500);
+    await loadObjTorch(scene, 1250, -2, 2500);
+    await loadObjTorch(scene, 0, -2, 2500);
+    await loadObjTorch(scene, -1250, -2, 2500);
+    await loadObjTorch(scene, -2500, -2, 2500);
 }
 
 function animate() {
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
+
+    if(!loading && boatLoaded && deathLoaded && doorLoaded && torchesLoaded)
+        removeLoading();
+
     if(boatAnimations && boatAnimations["0movement"] && boat_death_torch_animator && boat_death_torch_animator.running){
         boatAnimations["0movement"].getMixer().update(deltat * 0.001);
+    }
+    if(!finished && boat_moved && !boat_death_torch_animator.running){
+        console.log("acabo");
+        finished = true; 
     }
     let fract = deltat / duration;
     uniforms.time.value += fract;
 
-    if(!created && boat && death && torch){
-        createBoatAnimator();
-    }
-    if(created){
-        KF.update();
-    }
+    KF.update();
 }
 
 function run() 
@@ -261,8 +291,35 @@ function run()
     // Render the scene
     renderer.render( scene, camera );
     animate();
+
+    if ( controls.isLocked === true && finished) 
+    {
+        let time = performance.now();
+        let delta = ( time - prevTime ) / 1000;
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        direction.z = Number( moveForward ) - Number( moveBackward );
+        direction.x = Number( moveRight ) - Number( moveLeft );
+
+        direction.normalize();
+        if ( moveForward || moveBackward ) velocity.z -= direction.z * 4000.0 * delta;
+        if ( moveLeft || moveRight ) velocity.x -= direction.x * 4000.0 * delta;
+
+        deltax_change = - velocity.x * delta;
+        deltaz_change = - velocity.z * delta;
+        if(camera.position.x + deltax_change * 3 > -2800 && camera.position.x + deltax_change * 3 < 2800 
+            && camera.position.z + deltaz_change * 3 > -700 && camera.position.z + deltaz_change * 3 < 2800){
+            controls.moveRight(deltax_change);
+            controls.moveForward(deltaz_change);
+        }
+
+        prevTime = time;
+    }
+
     // Update the camera controller
-    orbitControls.update();
+    // orbitControls.update();
 }
 
 function onDocumentMouseDown(event)
@@ -279,8 +336,13 @@ function onDocumentMouseDown(event)
     console.log(intersects);
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
-        if(intersects[0].distance < 800)
-            window.location = '../cerberusScene/cerberusScene.html'
+        if(intersects[0].distance < 800){
+            door_snd.currentTime=0;
+            door_snd.play();
+            door_snd.onended = function() {
+                window.location = '../cerberusScene/cerberusScene.html'
+            };
+        }
     }
 }
 
@@ -379,5 +441,4 @@ async function loadObjFireMobile(scene, x, y, z)
 }
 
 //TODO
-//Agregar controles y fotos
-//Agregar seguimiento de la cámara
+//Agregar fotos

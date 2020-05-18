@@ -6,9 +6,26 @@ let floorUrl = "../images/ice.jpg";
 let wolf, resultGLTF, wolfAnimations = {}, resultDoor, door, resultTree, tree;
 let penguinObj, raycaster;
 let mouse = new THREE.Vector2();
-
-
 let currentTime = Date.now();
+
+let moveForward = false;
+let moveBackward = false;
+let moveLeft = false;
+let moveRight = false;
+let canJump = false;
+let blocker,  instructions;
+let prevTime = performance.now();
+let velocity, direction;
+let deltax_change, deltaz_change;
+
+let doorLoaded, gargoylesLoaded, cthuluLoaded, icebergsLoaded, loading = false, fireLoaded;
+
+var door_snd = new Audio("../sounds/creaky_door.mp3");
+var wind_snd = new Audio("../sounds/wind.mp3");
+wind_snd.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
 
 async function loadGLTFDoor(scene)
 {
@@ -22,6 +39,7 @@ async function loadGLTFDoor(scene)
         door = resultDoor.scene.children[0];
         door.scale.set(100, 100, 100);
         door.position.z = -1800;
+        door.rotation.z += Math.PI;
         door.traverse(child =>{
             if(child.isMesh)
             {
@@ -37,6 +55,15 @@ async function loadGLTFDoor(scene)
     {
         console.error(err);
     }
+}
+
+function removeLoading(){
+    let blocker = document.getElementById( 'loading' );
+    let instructions = document.getElementById( 'loading_text' );
+    blocker.style.display = 'none';
+    instructions.style.display = '';
+    loading = true;
+    wind_snd.play();
 }
 
 function createScene(canvas) 
@@ -55,14 +82,16 @@ function createScene(canvas)
     
     // Create a new Three.js scene
     scene = new THREE.Scene();
-    // Adding Milky Way Background
-    // scene.fog = new THREE.Fog( 0x556A83, 0, 550 );
+    
+    velocity = new THREE.Vector3();
+    direction = new THREE.Vector3();
 
     // Add a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
     camera.position.set(0, 55, -350);
+    camera.rotation.y += Math.PI;
     var geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    var material = new THREE.MeshBasicMaterial( {color: 0x407294} );
     var sphere = new THREE.Mesh( geometry, material );
     camera.add(sphere);
     sphere.position.set( 0, 0, -30 );
@@ -77,10 +106,14 @@ function createScene(canvas)
     camera.add(spotLight);
     scene.add(camera);
 
-    var light = new THREE.AmbientLight( 0xffffff );
-    scene.add(light);
+    fireColorAnimator(spotLight).then(()=>{
+        fireLoaded = true;
+    });
 
-    orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+    // var light = new THREE.AmbientLight( 0xffffff );
+    // scene.add(light);
+
+    // orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
 
     // Create a texture map
     let map = new THREE.TextureLoader().load(floorUrl);
@@ -102,21 +135,32 @@ function createScene(canvas)
 
     window.addEventListener( 'resize', onWindowResize);
     document.addEventListener('mousedown', onDocumentMouseDown);
+    document.addEventListener( 'keydown', onKeyDown, false );
+    document.addEventListener( 'keyup', onKeyUp, false );
     raycaster = new THREE.Raycaster();
+    initPointerLock(scene, camera);
 
-    loadGLTFDoor(scene);
-    loadObjCthulu(scene, 0, -250, -1200, 0);
-    createTorchs(scene);
-    loadObjIcebergs(scene);
-    createGargoyles(scene);
+    loadGLTFDoor(scene).then(()=>{
+        doorLoaded = true;
+    });
+    loadObjCthulu(scene, 0, -250, -1200, 0).then((cthulu) =>{
+        cthuluLoaded = true;
+    });
+    // createTorchs(scene);
+    loadObjIcebergs(scene).then(()=>{
+        icebergsLoaded = true;
+    });
+    createGargoyles(scene).then(()=>{
+        gargoylesLoaded = true;
+    });
 }
     
-function loadObjIcebergs(scene){
+async function loadObjIcebergs(scene){
     let x, z;
     for(let i = 0; i < 30; i++){
         x = Math.floor(Math.random() * 5000) - 2500;
         z = Math.floor(Math.random() * 5000) - 2500;
-        loadObjIceberg(scene, x, 0, z);
+        await loadObjIceberg(scene, x, 0, z);
     }
 }
 
@@ -125,34 +169,32 @@ function createTorchs(scene){
     loadObjTorch(scene, -300, -2, 0);
 }
 
-function createGargoyles(scene){
-    loadObjGargoyle(scene, -2700, 0, -2700, Math.PI/4);
+async function createGargoyles(scene){
+    await loadObjGargoyle(scene, -2700, 0, -2700, Math.PI/4);
     for(let i = -2200; i < 2700; i += 500){
-        loadObjGargoyle(scene, i, 0, -2700, 0);
+        await loadObjGargoyle(scene, i, 0, -2700, 0);
     }
-    loadObjGargoyle(scene, 2700, 0, -2700, -Math.PI/4);
+    await loadObjGargoyle(scene, 2700, 0, -2700, -Math.PI/4);
 
 
-    loadObjGargoyle(scene, -2700, 0, 2700, Math.PI - Math.PI/4);
+    await loadObjGargoyle(scene, -2700, 0, 2700, Math.PI - Math.PI/4);
     for(let i = -2200; i < 2700; i += 500){
-        loadObjGargoyle(scene, i, 0, 2700, Math.PI);
+        await loadObjGargoyle(scene, i, 0, 2700, Math.PI);
     }
-    loadObjGargoyle(scene, 2700, 0, 2700, Math.PI + Math.PI/4);
+    await loadObjGargoyle(scene, 2700, 0, 2700, Math.PI + Math.PI/4);
 
     for(let i = -2200; i < 2700; i += 500){
-        loadObjGargoyle(scene, -2700, 0, i, Math.PI - Math.PI/2);
+        await loadObjGargoyle(scene, -2700, 0, i, Math.PI - Math.PI/2);
     }
 
     for(let i = -2200; i < 2700; i += 500){
-        loadObjGargoyle(scene, 2700, 0, i, Math.PI + Math.PI/2);
+        await loadObjGargoyle(scene, 2700, 0, i, Math.PI + Math.PI/2);
     }
 
 }
 
 function animate() {
-    let now = Date.now();
-    let deltat = now - currentTime;
-    currentTime = now;
+    KF.update();
 }
 
 function run() 
@@ -162,8 +204,39 @@ function run()
     // Render the scene
     renderer.render( scene, camera );
     animate();
+
+    if(!loading && doorLoaded && gargoylesLoaded && cthuluLoaded && icebergsLoaded && fireLoaded)
+        removeLoading();
+    
+    // COMENTAR FUNCIÓN PARA ORBIT
+    if ( controls.isLocked === true && loading) 
+    {
+        let time = performance.now();
+        let delta = ( time - prevTime ) / 1000;
+
+        velocity.x -= velocity.x * 10.0 * delta;
+        velocity.z -= velocity.z * 10.0 * delta;
+
+        direction.z = Number( moveForward ) - Number( moveBackward );
+        direction.x = Number( moveRight ) - Number( moveLeft );
+
+        direction.normalize();
+        if ( moveForward || moveBackward ) velocity.z -= direction.z * 4000.0 * delta;
+        if ( moveLeft || moveRight ) velocity.x -= direction.x * 4000.0 * delta;
+
+        deltax_change = - velocity.x * delta;
+        deltaz_change = - velocity.z * delta;
+        if(camera.position.x + deltax_change * 3 > -2800 && camera.position.x + deltax_change * 3 < 2800 
+            && camera.position.z + deltaz_change * 3 > -2800 && camera.position.z + deltaz_change * 3 < 2800){
+            controls.moveRight(deltax_change);
+            controls.moveForward(deltaz_change);
+        }
+
+        prevTime = time;
+    }
+
     // Update the camera controller
-    orbitControls.update();
+    // orbitControls.update();
 }
 
 function onDocumentMouseDown(event)
@@ -180,7 +253,12 @@ function onDocumentMouseDown(event)
     console.log(intersects);
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
-        if(intersects[0].distance < 800)
-            window.location = '../finalScene/finalScene.html'
+        if(intersects[0].distance < 800){
+            door_snd.currentTime=0;
+            door_snd.play();
+            door_snd.onended = function() {
+                window.location = '../finalScene/finalScene.html'
+            };
+        }
     }
 }

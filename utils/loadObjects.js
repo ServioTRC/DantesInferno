@@ -216,7 +216,6 @@ async function loadObjBear(scene, x, y, z, rotation_z)
 
 async function loadObjCthulu(scene, x, y, z, rotation_z)
 {   
-    console.log("Cargando");
     const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
 
     try {
@@ -236,6 +235,7 @@ async function loadObjCthulu(scene, x, y, z, rotation_z)
         cthulu.position.y = y;
         cthulu.rotation.y -= rotation_z;
         scene.add(cthulu);
+        return cthulu
     }
     catch (err) {
         return onError(err);

@@ -12,7 +12,7 @@ async function fireColorAnimator(light){
             target:light.color
         }],
         loop: true,
-        duration: 10*1000,
+        duration: 5*1000,
     });
     light_animator.start();
     return light_animator;

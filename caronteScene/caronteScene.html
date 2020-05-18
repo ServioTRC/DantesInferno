@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
-		<title>three.js - pointerlock controls</title>
+		<title>Caronte</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <!-- <link rel="stylesheet" href="../css/threejsPointerLock.css" /> -->
+        <link rel="stylesheet" href="../css/doorScene.css" />
 
         <script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
         <script src="../libs/jquery-ui/jquery-ui.js"></script>
@@ -13,6 +13,7 @@
         <script src="../libs/three.js/three.js"></script>
         <script src="../utils/animations.js"></script>
         <script src="../libs/three.js/controls/OrbitControls.js"></script>
+        <script src="../libs/three.js/controls/PointerLockControls.js"></script>
 
         <script src="../libs/three.js/loaders/GLTFLoader.js"></script>
         <script src="../libs/three.js/loaders/MTLLoader.js"></script>
@@ -41,8 +42,8 @@
                 vec4 noise = texture2D( noiseTexture, texCoord );
                 
                 // Texture movements
-                vec2 T1 = texCoord + vec2( -0.000075, -0.000075 ) * time;
-                vec2 T2 = texCoord + vec2( -0.000025, -0.000025 ) * time; 
+                vec2 T1 = texCoord + vec2( -0.00075, -0.00075 ) * time;
+                vec2 T2 = texCoord + vec2( -0.00025, -0.00025 ) * time; 
         
                 // Texture position change based on noise texture
                 T1.x += noise.r * 5.0;
@@ -100,6 +101,22 @@
     </head>
     
 	<body>
+
+        <div id="blocker">
+			<div id="instructions">
+				<span style="font-size:40px">Click to play</span>
+				<br />
+				(W, A, S, D = Move, MOUSE = Look around)
+            </div>
+        </div>
+
+        <div id="loading">
+			<div id="loading_text">
+                <span style="font-size:50px">LOADING</span>
+                </br>
+                <img src="../images/Preloader_1.gif"> 
+            </div>
+        </div>
 
         <div id="container">
             <canvas id="webglcanvas"></canvas>

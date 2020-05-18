@@ -27,6 +27,7 @@ let gong_scene, gong_clicked, gong_animator;
 let cerberus_loaded, cerberus_animator;
 let loaded_torches, door_loaded, monsters_loaded;
 let loading = false;
+let deltax_change, deltaz_change;
 
 let currentTime = Date.now();
 

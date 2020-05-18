@@ -29,30 +29,6 @@ forest_snd.addEventListener('ended', function() {
     this.play();
 }, false);
 
-function initPointerLock()
-{
-    blocker = document.getElementById( 'blocker' );
-    instructions = document.getElementById( 'instructions' );
-
-    controls = new THREE.PointerLockControls( camera, document.body );
-
-    controls.addEventListener( 'lock', function () {
-        instructions.style.display = 'none';
-        blocker.style.display = 'none';
-    } );
-    
-    controls.addEventListener( 'unlock', function () {
-        blocker.style.display = 'block';
-        instructions.style.display = '';
-    } );
-
-    instructions.addEventListener( 'click', function () {
-        controls.lock();
-    }, false );
-
-    scene.add( controls.getObject() );
-}
-
 async function loadGLTFWolf(scene)
 {
     let gltfLoader = new THREE.GLTFLoader();
@@ -178,7 +154,7 @@ function createScene(canvas)
     document.addEventListener( 'keydown', onKeyDown, false );
     document.addEventListener( 'keyup', onKeyUp, false );
     raycaster = new THREE.Raycaster();
-    initPointerLock();
+    initPointerLock(scene, camera);
 
 
     loadGLTFWolf(scene).then(() => {
@@ -305,59 +281,5 @@ function onDocumentMouseDown(event)
             door_snd.onended = function() {
                 window.location = '../caronteScene/caronteScene.html'
             }; 
-    }
-}
-
-function onKeyDown ( event )
-{
-    switch ( event.keyCode ) {
-
-        case 38: // up
-        case 87: // w
-            moveForward = true;
-            break;
-
-        case 37: // left
-        case 65: // a
-            moveLeft = true; 
-            break;
-
-        case 40: // down
-        case 83: // s
-            moveBackward = true;
-            break;
-
-        case 39: // right
-        case 68: // d
-            moveRight = true;
-            break;
-    }
-
-}
-
-function onKeyUp( event ) {
-
-    switch( event.keyCode ) {
-
-        case 38: // up
-        case 87: // w
-            moveForward = false;
-            break;
-
-        case 37: // left
-        case 65: // a
-            moveLeft = false;
-            break;
-
-        case 40: // down
-        case 83: // s
-            moveBackward = false;
-            break;
-
-        case 39: // right
-        case 68: // d
-            moveRight = false;
-            break;
-
     }
 }
