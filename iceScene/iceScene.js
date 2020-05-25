@@ -144,10 +144,9 @@ function createScene(canvas)
         doorLoaded = true;
     });
     loadObjCthulu(scene, 0, -250, -1200, 0).then((cthulu) =>{
-        cthuluLoaded = true;
+        cthuluLoaded = true;    
     });
-    // createTorchs(scene);
-    loadObjIcebergs(scene).then(()=>{
+    loadObjIcebergsAndPhotos(scene).then(()=>{
         icebergsLoaded = true;
     });
     createGargoyles(scene).then(()=>{
@@ -155,18 +154,33 @@ function createScene(canvas)
     });
 }
     
-async function loadObjIcebergs(scene){
-    let x, z;
+async function loadObjIcebergsAndPhotos(scene){
+    let x, z, rotation;
     for(let i = 0; i < 30; i++){
         x = Math.floor(Math.random() * 5000) - 2500;
         z = Math.floor(Math.random() * 5000) - 2500;
         await loadObjIceberg(scene, x, 0, z);
     }
-}
-
-function createTorchs(scene){
-    loadObjTorch(scene, 300, -2, 0);
-    loadObjTorch(scene, -300, -2, 0);
+    x = Math.floor(Math.random() * 5000) - 2500;
+    z = Math.floor(Math.random() * 5000) - 2500;
+    rotation = Math.random() * Math.PI;
+    await addPhotoElement(scene, "../images/characters/ninethCircle/brutus.png", x, 75, z, rotation);
+    x = Math.floor(Math.random() * 5000) - 2500;
+    z = Math.floor(Math.random() * 5000) - 2500;
+    rotation = Math.random() * Math.PI;
+    await addPhotoElement(scene, "../images/characters/ninethCircle/cain.png", x, 75, z, rotation);
+    x = Math.floor(Math.random() * 5000) - 2500;
+    z = Math.floor(Math.random() * 5000) - 2500;
+    rotation = Math.random() * Math.PI;
+    await addPhotoElement(scene, "../images/characters/ninethCircle/casio.png", x, 75, z, rotation);
+    x = Math.floor(Math.random() * 5000) - 2500;
+    z = Math.floor(Math.random() * 5000) - 2500;
+    rotation = Math.random() * Math.PI;
+    await addPhotoElement(scene, "../images/characters/ninethCircle/judas.png", x, 75, z, rotation);
+    x = Math.floor(Math.random() * 5000) - 2500;
+    z = Math.floor(Math.random() * 5000) - 2500;
+    rotation = Math.random() * Math.PI;
+    await addPhotoElement(scene, "../images/characters/ninethCircle/mordred.png", x, 75, z, rotation);
 }
 
 async function createGargoyles(scene){

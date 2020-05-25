@@ -40,11 +40,12 @@ async function movingForwardAnimator(cerberus){
     cerberus_animator.init({
         interps:
         [{
-            keys:[0, 0.9, 1], 
+            keys:[0, 0.1, 0.9, 1], 
             values:[
                 {x: 2500, y: 0, z: 2000},
-                {x: 2500, y: 0, z: -2000},
-                {x: 2500, y: -300, z: -2000}
+                {x: 2700, y: 0, z: 2000},
+                {x: 2700, y: 0, z: -2000},
+                {x: 2700, y: -300, z: -2000}
             ],
             target:cerberus.position
         }],

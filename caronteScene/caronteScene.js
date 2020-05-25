@@ -206,6 +206,7 @@ function createScene(canvas)
         vertexShader: document.getElementById( 'vertexShader' ).textContent,
         fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
         transparent:true,
+        side:THREE.DoubleSide
     } );
 
     mesh = new THREE.Mesh(geometry, material);
@@ -244,17 +245,23 @@ function createScene(canvas)
     loadGLTFDoor(scene).then(()=>{
         doorLoaded = true;
     });
-    createTorchs(scene).then(()=>{
+    createTorchsAndPhotos(scene).then(()=>{
         torchesLoaded = true;
     });
 }
 
-async function createTorchs(scene){
+async function createTorchsAndPhotos(scene){
     await loadObjTorch(scene, 2500, -2, 1250);
     await loadObjTorch(scene, 1250, -2, 1250);
     await loadObjTorch(scene, 0, -2, 1250);
     await loadObjTorch(scene, -1250, -2, 1250);
     await loadObjTorch(scene, -2500, -2, 1250);
+
+    await addPhotoElement(scene, "../images/characters/firstCircle/euclides.png", 2500, 100, 1875, Math.PI);
+    await addPhotoElement(scene, "../images/characters/firstCircle/homero.png", 1250, 100, 1875, Math.PI);
+    await addPhotoElement(scene, "../images/characters/firstCircle/penthesileia.png", 0, 100, 1875, Math.PI);
+    await addPhotoElement(scene, "../images/characters/firstCircle/socrates.png", -1250, 100, 1875, Math.PI);
+    await addPhotoElement(scene, "../images/characters/firstCircle/virgilio.png", -2500, 100, 1875, Math.PI);
 
     await loadObjTorch(scene, 2500, -2, 2500);
     await loadObjTorch(scene, 1250, -2, 2500);
@@ -439,6 +446,3 @@ async function loadObjFireMobile(scene, x, y, z)
         return onError(err);
     }
 }
-
-//TODO
-//Agregar fotos

@@ -4,7 +4,7 @@ Descripción del círculo: En el limbo se encuentran los no bautizadosy los paga
 
 Personajes:
 
-1)
+1)  LISTO
 
 Nombre: Publio Virgilio Marón.
 Época: 70 a. C.
@@ -14,7 +14,7 @@ Biografía: Poeta romano, autor de la "Eneida", las "Bucólicas" y las "Geórgic
 Link biografía: https://es.wikipedia.org/wiki/Virgilio
 Link foto: https://upload.wikimedia.org/wikipedia/commons/6/65/Parco_della_Grotta_di_Posillipo5_%28crop%29.jpg
 
-2)
+2)  LISTO
 
 Nombre: Sócrates.
 Época: 470 a. C.
@@ -24,7 +24,7 @@ Biografía: Filósofo clásico griego considerado como uno de los más grnades, 
 Link biografía: https://es.wikipedia.org/wiki/S%C3%B3crates
 Link foto: https://upload.wikimedia.org/wikipedia/commons/a/a4/Socrates_Louvre.jpg
 
-3)
+3)  LISTO
 
 Nombre: Euclides.
 Época: 325 a. C.
@@ -34,7 +34,7 @@ Biografía: Fue un matemático y geómetra griego; se le conoce como "el padre d
 Link biografía: https://es.wikipedia.org/wiki/Euclides
 Link foto: https://upload.wikimedia.org/wikipedia/commons/3/3b/Artgate_Fondazione_Cariplo_-_Cifrondi_Antonio%2C_Euclide.jpg
 
-4)
+4)  LISTO
 
 Nombre: Penthesileia.
 Época: Muy muy antigua Grecia.
@@ -44,7 +44,7 @@ Biografía: Era una reina amazona hija de Ares y Otrera. Penthesileia se disting
 Link biografía: https://es.wikipedia.org/wiki/Pentesilea
 Link foto: https://upload.wikimedia.org/wikipedia/commons/9/97/Achilles_and_Penthesilea.jpg
 
-5)
+5)  LISTO
 
 Nombre: Homero
 Época: Siglo VIII a. C.
@@ -56,7 +56,7 @@ Link foto: https://upload.wikimedia.org/wikipedia/commons/3/34/Homer_Musei_Capit
 
 ** Segundo, Tercero, Cuarto, Quinto, Sexto, Séptimo y Octavo Círculo del Infierno
 
-1)
+1)  LISTO
 
 Nombre: Cleopatra VII Thea Filopátor
 Época: 69 a. C.
@@ -66,7 +66,7 @@ Biografía: Última gobernante de la dinastía ptolemaica del Antiguo Egipto. Ta
 Link biografía: https://es.wikipedia.org/wiki/Cleopatra
 Link foto: https://upload.wikimedia.org/wikipedia/commons/3/3e/Kleopatra-VII.-Altes-Museum-Berlin1.jpg
 
-2)
+2)  LISTO
 
 Nombre: Elisa de Tiro
 Época: Antigua Roma
@@ -76,17 +76,17 @@ Biografía: Fundadora y primera reina de Cartago, en la actual Túnez. Su fama s
 Link biografía: https://es.wikipedia.org/wiki/Dido
 Link foto: https://upload.wikimedia.org/wikipedia/commons/2/2c/Sacchi%2C_Andrea_-_The_Death_of_Dido_-_17th_c.jpg
 
-3)
+3)  LISTO
 
 Nombre: Ciacco
-Época: 
+Época: -
 Nivel del infierno: Gula.
 Motivo: Pecado de la Gula.
 Biografía: Es un personaje de ficción citado por Dante, así como por Giovanni Boccaccio en una novela del Decamerón.
 Link biografía: https://es.wikipedia.org/wiki/Ciacco
 Link foto: https://alchetron.com/cdn/ciacco-c3df6464-2ec7-40c5-8f3e-c3487522e39-resize-750.jpeg
 
-4)
+4)  LISTO
 
 Nombre: Pluto
 Época: Muy Antigua Grecia.
@@ -96,7 +96,7 @@ Biografía: Es la personificación de la riqueza. Según Aristófanes fue cegado
 Link biografía: https://es.wikipedia.org/wiki/Pluto_(dios)
 Link foto: https://upload.wikimedia.org/wikipedia/commons/0/0e/NAMA_Ploutos.jpg
 
-5)
+5)  LISTO
 
 Nombre: Filippo Argenti
 Época: 1265 d. C. aproximadamente.
@@ -106,7 +106,7 @@ Biografía: Fue un político de Italia. Era miembro de la familia aristocrática
 Link biografía: https://es.wikipedia.org/wiki/Filippo_Argenti
 Link foto: https://i.pinimg.com/474x/53/2f/7b/532f7b588eaa0aa33c936611f2ad2e33--gabriels-inferno-dantes-inferno.jpg
 
-6)
+6)  LISTO
 
 Nombre: Erinias
 Época: Antigua Grecia
@@ -116,7 +116,7 @@ Biografía: Son personificaciones femeninas de la venganza que perseguían a los
 Link biografía: https://es.wikipedia.org/wiki/Erinias
 Link foto: https://upload.wikimedia.org/wikipedia/commons/c/cc/Klytaimnestra_Erinyes_Louvre_Cp710.jpg
 
-7)
+7)  LISTO
 
 Nombre: Medusa
 Época: Antigua Grecia
@@ -126,7 +126,7 @@ Biografía: Era un monstruo ctónico femenino, que convertía en piedra a aquell
 Link biografía: https://es.wikipedia.org/wiki/Medusa_(mitolog%C3%ADa)
 Link foto: https://upload.wikimedia.org/wikipedia/commons/0/00/Medusa_by_Caravaggio.jpg
 
-8)
+8)  LISTO
 
 Nombre: Farinata degli Uberti
 Época: 1264 d. C.
@@ -136,7 +136,7 @@ Biografía: Fue un noble gibelino, el partido que apoyaba al Imperio, pertenecie
 Link biografía: https://es.wikipedia.org/wiki/Farinata_degli_Uberti
 Link foto: https://upload.wikimedia.org/wikipedia/commons/5/52/Farinata.jpg
 
-9)
+9)  LISTO
 
 Nombre: Pier della Vigna
 Época: 1190
@@ -146,7 +146,7 @@ Biografía: Fue un político y escritor italiano del Reino de Sicilia.
 Link biografía: https://es.wikipedia.org/wiki/Pier_della_Vigna
 Link foto: https://divinacommedia.weebly.com/uploads/5/5/2/3/5523249/4188405.jpg?269
 
-10)
+10) LISTO
 
 Nombre: La esposa Putifar
 Época: Siglo XIV a. C. aproximadamente.
@@ -158,7 +158,7 @@ Link foto: https://upload.wikimedia.org/wikipedia/commons/4/4b/Guercino_Gius_mog
 
 ** Noveno Círculo del Infierno
 
-1)
+1)  LISTO
 
 Nombre: Cain
 Época: Génesis (Adan y Eva).
@@ -168,7 +168,7 @@ Biografía: Fue el primogénito de Adán y Eva, es decir, su primer hijo barón.
 Link biografía: https://es.wikipedia.org/wiki/Ca%C3%ADn
 Link foto: https://upload.wikimedia.org/wikipedia/commons/0/04/CainkillshisbrotherAbel.jpg
 
-2)
+2)  LISTO
 
 Nombre: Mordred
 Época: 516 d. C. aproximadamente (se duda su existencia)
@@ -178,7 +178,7 @@ Biografía: Hijo incestuoso del rey Arturo y de Morgause, conocido por haber sid
 Link biografía: https://es.wikipedia.org/wiki/Mordred
 Link foto: https://upload.wikimedia.org/wikipedia/commons/8/83/Sir_Mordred_by_H._J._Ford%2C_from_King_Arthur-_The_Tales_of_the_Round_Table_by_Andrew_Lang%2C_1902.jpg
 
-3)
+3)  LISTO
 
 Nombre: Marco Junio Bruto
 Época: 85 a. C.
@@ -188,7 +188,7 @@ Biografía: Fue un político y militar romano en la etapa final de la República
 Link biografía: https://es.wikipedia.org/wiki/Marco_Junio_Bruto
 Link foto: https://upload.wikimedia.org/wikipedia/commons/c/cb/Brutus.jpg
 
-4)
+4)  LISTO
 
 Nombre: Cayo Casio Longino
 Época: 87 a. C.
@@ -198,7 +198,7 @@ Biografía: Es considerado, junto con su amigo y cuñado Bruto, como cabeza del 
 Link biografía: https://es.wikipedia.org/wiki/Cayo_Casio_Longino
 Link foto: https://upload.wikimedia.org/wikipedia/commons/0/0b/Cohen_0008.jpg
 
-5)
+5)  
 
 Nombre: Judas Iscariote
 Época: 27 o 33 d. C. (Fecha de muerte de Judas Iscariote).
@@ -207,3 +207,6 @@ Motivo: Entregar a Jesús a los guardias.
 Biografía: Fue uno de los apóstoles de Jesús de Nazaret, según los evangelios canónicos, fue el apóstol traidor que reveló a los miembros del Sanedrín el lugar donde podían capturar a su Maestro.
 Link biografía: https://es.wikipedia.org/wiki/Judas_Iscariote
 Link foto: https://upload.wikimedia.org/wikipedia/commons/d/d1/Almeida_Júnior_-_Remorso_de_Judas%2C_1880.jpg
+
+
+Format de la imagen, inversión contraste  y dos veces sin brillo

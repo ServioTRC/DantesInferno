@@ -123,7 +123,7 @@ function createScene(canvas)
     document.addEventListener( 'keyup', onKeyUp, false );
     raycaster = new THREE.Raycaster();
 
-    createTorchs(scene).then(()=>{
+    createTorchsAndPhotos(scene).then(()=>{
         loaded_torches = true;
     });
     loadObjGong(scene, 0, 0, 2500, Math.PI/2).then((gong)=>{
@@ -163,11 +163,24 @@ async function createAllMonsters(){
     await loadObjMonster(scene, -2500, 0, 1500, Math.PI/2);
 }
 
-async function createTorchs(scene){
+async function createTorchsAndPhotos(scene){
     await loadObjTorch(scene, 1000, -2, 0);
     await loadObjTorch(scene, -1000, -2, 0);
     await loadObjTorch(scene, 0, -2, 1000);
     await loadObjTorch(scene, 0, -2, -1000);
+
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/ciacco.png", 0, 75, -2000, 0);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/cleopatra.png", 0, 75, 2000, Math.PI);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/elisa.png", 2000, 75, 0, -Math.PI/2);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/erinias.png", -2000, 75, 0, Math.PI/2);
+
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/esposa_putifar.png", 1000, 75, 1000, Math.PI+Math.PI/4);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/farinata.png", -1000, 75, 1000, Math.PI-Math.PI/4);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/filippo.png", 1000, 75, -1000, -Math.PI/4);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/medusa.png", -1000, 75, -1000, Math.PI/4); //
+
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/pier.png", 0, 75, 500, Math.PI);
+    await addPhotoElement(scene, "../images/characters/secondEigthCircle/pluto.png", 0, 75, -500, 0);
 }
 
 function animate() {
@@ -265,6 +278,3 @@ function onDocumentMouseDown(event)
         }
     }
 }
-
-// TODO
-// Agregar personajes
