@@ -17,6 +17,7 @@ let blocker,  instructions;
 let prevTime = performance.now();
 let velocity, direction;
 let deltax_change, deltaz_change;
+let brutus, cain, casio, judas, mordred;
 
 let doorLoaded, gargoylesLoaded, cthuluLoaded, icebergsLoaded, loading = false, fireLoaded;
 
@@ -164,23 +165,23 @@ async function loadObjIcebergsAndPhotos(scene){
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    await addPhotoElement(scene, "../images/characters/ninethCircle/brutus.png", x, 75, z, rotation);
+    brutus = await addPhotoElement(scene, "../images/characters/ninethCircle/brutus.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    await addPhotoElement(scene, "../images/characters/ninethCircle/cain.png", x, 75, z, rotation);
+    cain = await addPhotoElement(scene, "../images/characters/ninethCircle/cain.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    await addPhotoElement(scene, "../images/characters/ninethCircle/casio.png", x, 75, z, rotation);
+    casio = await addPhotoElement(scene, "../images/characters/ninethCircle/casio.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    await addPhotoElement(scene, "../images/characters/ninethCircle/judas.png", x, 75, z, rotation);
+    judas = await addPhotoElement(scene, "../images/characters/ninethCircle/judas.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    await addPhotoElement(scene, "../images/characters/ninethCircle/mordred.png", x, 75, z, rotation);
+    mordred = await addPhotoElement(scene, "../images/characters/ninethCircle/mordred.png", x, 75, z, rotation);
 }
 
 async function createGargoyles(scene){
@@ -263,7 +264,27 @@ function onDocumentMouseDown(event)
     raycaster.setFromCamera( mouse, camera );
     if(!door)
         return;
-    let intersects = raycaster.intersectObject( door, true );
+    let intersects = raycaster.intersectObject( brutus, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Marco_Junio_Bruto', '_blank');
+    }
+    intersects = raycaster.intersectObject( cain, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Ca%C3%ADn', '_blank');
+    }
+    intersects = raycaster.intersectObject( casio, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Cayo_Casio_Longino', '_blank');
+    }
+    intersects = raycaster.intersectObject( judas, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Judas_Iscariote', '_blank');
+    }
+    intersects = raycaster.intersectObject( mordred, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Mordred', '_blank');
+    }
+    intersects = raycaster.intersectObject( door, true );
     console.log(intersects);
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);

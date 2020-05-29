@@ -28,6 +28,7 @@ let cerberus_loaded, cerberus_animator;
 let loaded_torches, door_loaded, monsters_loaded;
 let loading = false;
 let deltax_change, deltaz_change;
+let ciacco, cleopatra, elisa, erinias, putifar, farinata, filippo, medusa, pier, pluto;
 
 let currentTime = Date.now();
 
