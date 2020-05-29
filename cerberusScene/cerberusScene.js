@@ -170,18 +170,18 @@ async function createTorchsAndPhotos(scene){
     await loadObjTorch(scene, 0, -2, 1000);
     await loadObjTorch(scene, 0, -2, -1000);
 
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/ciacco.png", 0, 75, -2000, 0);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/cleopatra.png", 0, 75, 2000, Math.PI);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/elisa.png", 2000, 75, 0, -Math.PI/2);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/erinias.png", -2000, 75, 0, Math.PI/2);
+    ciacco = await addPhotoElement(scene, "../images/characters/secondEigthCircle/ciacco.png", 0, 75, -2000, 0);
+    cleopatra = await addPhotoElement(scene, "../images/characters/secondEigthCircle/cleopatra.png", 0, 75, 2000, Math.PI);
+    elisa = await addPhotoElement(scene, "../images/characters/secondEigthCircle/elisa.png", 2000, 75, 0, -Math.PI/2);
+    erinias = await addPhotoElement(scene, "../images/characters/secondEigthCircle/erinias.png", -2000, 75, 0, Math.PI/2);
 
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/esposa_putifar.png", 1000, 75, 1000, Math.PI+Math.PI/4);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/farinata.png", -1000, 75, 1000, Math.PI-Math.PI/4);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/filippo.png", 1000, 75, -1000, -Math.PI/4);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/medusa.png", -1000, 75, -1000, Math.PI/4); //
+    putifar = await addPhotoElement(scene, "../images/characters/secondEigthCircle/esposa_putifar.png", 1000, 75, 1000, Math.PI+Math.PI/4);
+    farinata = await addPhotoElement(scene, "../images/characters/secondEigthCircle/farinata.png", -1000, 75, 1000, Math.PI-Math.PI/4);
+    filippo = await addPhotoElement(scene, "../images/characters/secondEigthCircle/filippo.png", 1000, 75, -1000, -Math.PI/4);
+    medusa = await addPhotoElement(scene, "../images/characters/secondEigthCircle/medusa.png", -1000, 75, -1000, Math.PI/4); //
 
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/pier.png", 0, 75, 500, Math.PI);
-    await addPhotoElement(scene, "../images/characters/secondEigthCircle/pluto.png", 0, 75, -500, 0);
+    pier = await addPhotoElement(scene, "../images/characters/secondEigthCircle/pier.png", 0, 75, 500, Math.PI);
+    pluto = await addPhotoElement(scene, "../images/characters/secondEigthCircle/pluto.png", 0, 75, -500, 0);
 }
 
 function animate() {
@@ -249,10 +249,62 @@ function onDocumentMouseDown(event)
 
     // find intersections
     raycaster.setFromCamera( mouse, camera );
+    let found_intersection = false;
     let intersects;
+    console.log(pier);
+    intersects = raycaster.intersectObject( pier, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Pier_della_Vigna', '_blank');
+    }
+    intersects = raycaster.intersectObject( pluto, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Pluto_(dios)', '_blank');
+    }
+    intersects = raycaster.intersectObject( ciacco, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Ciacco', '_blank');
+    }
+    intersects = raycaster.intersectObject( cleopatra, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Cleopatra', '_blank');
+    }
+    intersects = raycaster.intersectObject( elisa, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Dido', '_blank');
+    }
+    intersects = raycaster.intersectObject( erinias, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Erinias', '_blank');
+    }
+    intersects = raycaster.intersectObject( putifar, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Putifar', '_blank');
+    }
+    intersects = raycaster.intersectObject( farinata, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Farinata_degli_Uberti', '_blank');
+    }
+    intersects = raycaster.intersectObject( filippo, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Filippo_Argenti', '_blank');
+    }
+    intersects = raycaster.intersectObject( medusa, true );
+    if(intersects.length > 0 && !found_intersection){
+        found_intersection = true;
+        window.open('https://es.wikipedia.org/wiki/Medusa_(mitolog%C3%ADa)', '_blank');
+    }
     intersects = raycaster.intersectObject( gong_scene, true );
     console.log(intersects);
-    if(intersects.length > 0){
+    if(intersects.length > 0 && !found_intersection){
         console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800){
             gong_snd.currentTime=0;
@@ -268,7 +320,7 @@ function onDocumentMouseDown(event)
     }
     intersects = raycaster.intersectObject( door, true );
     console.log(intersects);
-    if(gong_clicked && intersects.length > 0){
+    if(gong_clicked && intersects.length > 0 && !found_intersection){
         console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800){
             door_snd.currentTime=0;
@@ -279,3 +331,5 @@ function onDocumentMouseDown(event)
         }
     }
 }
+
+// Blocker click antes de tiempo
