@@ -272,6 +272,8 @@ function onDocumentMouseDown(event)
     raycaster.setFromCamera( mouse, camera );
     if(!door)
         return;
+    if(screen_locked)
+        return;
     let intersects = raycaster.intersectObject( door, true );
     console.log(intersects);
     if(intersects.length > 0){

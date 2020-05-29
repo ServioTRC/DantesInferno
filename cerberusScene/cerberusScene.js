@@ -247,11 +247,13 @@ function onDocumentMouseDown(event)
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
+    if(screen_locked)
+        return;
     // find intersections
     raycaster.setFromCamera( mouse, camera );
     let found_intersection = false;
     let intersects;
-    console.log(pier);
+    
     intersects = raycaster.intersectObject( pier, true );
     if(intersects.length > 0 && !found_intersection){
         found_intersection = true;

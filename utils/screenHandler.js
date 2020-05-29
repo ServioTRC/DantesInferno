@@ -5,6 +5,8 @@ function onWindowResize()
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
+let screen_locked = true;
+
 function initPointerLock(scene, camera)
 {
     blocker = document.getElementById( 'blocker' );
@@ -15,11 +17,13 @@ function initPointerLock(scene, camera)
     controls.addEventListener( 'lock', function () {
         instructions.style.display = 'none';
         blocker.style.display = 'none';
+        screen_locked = false;
     } );
     
     controls.addEventListener( 'unlock', function () {
         blocker.style.display = 'block';
         instructions.style.display = '';
+        screen_locked = true;
     } );
 
     instructions.addEventListener( 'click', function () {

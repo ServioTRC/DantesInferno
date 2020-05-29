@@ -340,7 +340,9 @@ function onDocumentMouseDown(event)
     raycaster.setFromCamera( mouse, camera );
     if(!door)
         return;
-        // let euclides, homero, penthesileia, socrates, virgilio;
+    if(screen_locked)
+        return;
+    // let euclides, homero, penthesileia, socrates, virgilio;
     let intersects = raycaster.intersectObject( homero, true );
     if(intersects.length > 0){
         window.open('https://es.wikipedia.org/wiki/Homero', '_blank');

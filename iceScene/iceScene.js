@@ -264,6 +264,8 @@ function onDocumentMouseDown(event)
     raycaster.setFromCamera( mouse, camera );
     if(!door)
         return;
+    if(screen_locked)
+        return;
     let intersects = raycaster.intersectObject( brutus, true );
     if(intersects.length > 0){
         window.open('https://es.wikipedia.org/wiki/Marco_Junio_Bruto', '_blank');
