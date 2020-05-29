@@ -165,23 +165,23 @@ async function loadObjIcebergsAndPhotos(scene){
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    brutus = await addPhotoElement(scene, "../images/characters/ninethCircle/brutus.png", x, 75, z, rotation);
+    brutus = await addPhotoElementPhong(scene, "../images/characters/ninethCircle/brutus.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    cain = await addPhotoElement(scene, "../images/characters/ninethCircle/cain.png", x, 75, z, rotation);
+    cain = await addPhotoElementPhong(scene, "../images/characters/ninethCircle/cain.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    casio = await addPhotoElement(scene, "../images/characters/ninethCircle/casio.png", x, 75, z, rotation);
+    casio = await addPhotoElementPhong(scene, "../images/characters/ninethCircle/casio.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    judas = await addPhotoElement(scene, "../images/characters/ninethCircle/judas.png", x, 75, z, rotation);
+    judas = await addPhotoElementPhong(scene, "../images/characters/ninethCircle/judas.png", x, 75, z, rotation);
     x = Math.floor(Math.random() * 5000) - 2500;
     z = Math.floor(Math.random() * 5000) - 2500;
     rotation = Math.random() * Math.PI;
-    mordred = await addPhotoElement(scene, "../images/characters/ninethCircle/mordred.png", x, 75, z, rotation);
+    mordred = await addPhotoElementPhong(scene, "../images/characters/ninethCircle/mordred.png", x, 75, z, rotation);
 }
 
 async function createGargoyles(scene){

@@ -3,12 +3,11 @@ async function fireColorAnimator(light){
     light_animator.init({
         interps:
         [{
-            keys:[0, 0.33, 0.5, 1], 
+            keys:[0, 0.5, 1], 
             values:[
-                {r: 0.4067, g: 0.1176, b: 0.01323},
-                {r: 0.49, g: 0.385, b: 0},
-                {r: 0.4067, g: 0.1176, b: 0.01323},
-                {r: 0.4067, g: 0.1176, b: 0.01323},
+                {r: 0.83, g: 0.24, b: 0.027},
+                {r: 1, g: 0.55, b: 0},
+                {r: 0.83, g: 0.24, b: 0.027},
             ],
             target:light.color
         }],
