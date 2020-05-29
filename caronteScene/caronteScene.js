@@ -22,6 +22,7 @@ var door_snd = new Audio("../sounds/creaky_door.mp3");
 let currentTime = Date.now();
 let duration = 30;
 let created = false;
+let euclides, homero, penthesileia, socrates, virgilio;
 
 let boatLoaded, deathLoaded, doorLoaded, loading = false, torchesLoaded;
 let boat_moved = false, finished = false;
@@ -257,11 +258,11 @@ async function createTorchsAndPhotos(scene){
     await loadObjTorch(scene, -1250, -2, 1250);
     await loadObjTorch(scene, -2500, -2, 1250);
 
-    await addPhotoElement(scene, "../images/characters/firstCircle/euclides.png", 2500, 100, 1875, Math.PI);
-    await addPhotoElement(scene, "../images/characters/firstCircle/homero.png", 1250, 100, 1875, Math.PI);
-    await addPhotoElement(scene, "../images/characters/firstCircle/penthesileia.png", 0, 100, 1875, Math.PI);
-    await addPhotoElement(scene, "../images/characters/firstCircle/socrates.png", -1250, 100, 1875, Math.PI);
-    await addPhotoElement(scene, "../images/characters/firstCircle/virgilio.png", -2500, 100, 1875, Math.PI);
+    euclides = await addPhotoElement(scene, "../images/characters/firstCircle/euclides.png", 2500, 100, 1875, Math.PI);
+    homero = await addPhotoElement(scene, "../images/characters/firstCircle/homero.png", 1250, 100, 1875, Math.PI);
+    penthesileia = await addPhotoElement(scene, "../images/characters/firstCircle/penthesileia.png", 0, 100, 1875, Math.PI);
+    socrates = await addPhotoElement(scene, "../images/characters/firstCircle/socrates.png", -1250, 100, 1875, Math.PI);
+    virgilio = await addPhotoElement(scene, "../images/characters/firstCircle/virgilio.png", -2500, 100, 1875, Math.PI);
 
     await loadObjTorch(scene, 2500, -2, 2500);
     await loadObjTorch(scene, 1250, -2, 2500);
@@ -339,18 +340,42 @@ function onDocumentMouseDown(event)
     raycaster.setFromCamera( mouse, camera );
     if(!door)
         return;
-    let intersects = raycaster.intersectObject( door, true );
+        // let euclides, homero, penthesileia, socrates, virgilio;
+    let intersects = raycaster.intersectObject( homero, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Homero', '_blank');
+    }
+    intersects = raycaster.intersectObject( penthesileia, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Pentesilea', '_blank');
+    }
+    intersects = raycaster.intersectObject( socrates, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/S%C3%B3crates', '_blank');
+    }
+    intersects = raycaster.intersectObject( virgilio, true );
+    if(intersects.length > 0){
+        window.open('https://es.wikipedia.org/wiki/Virgilio', '_blank');
+    }
+    intersects = raycaster.intersectObject( euclides, true );
     console.log(intersects);
     if(intersects.length > 0){
-        console.log("intersects", intersects[0].distance);
-        if(intersects[0].distance < 800){
-            door_snd.currentTime=0;
-            door_snd.play();
-            door_snd.onended = function() {
-                window.location = '../cerberusScene/cerberusScene.html'
-            };
+        window.open('https://es.wikipedia.org/wiki/Euclides', '_blank');
+    } else{
+        intersects = raycaster.intersectObject( door, true );
+        console.log(intersects);
+        if(intersects.length > 0){
+            console.log("intersects", intersects[0].distance);
+            if(intersects[0].distance < 800){
+                door_snd.currentTime=0;
+                door_snd.play();
+                door_snd.onended = function() {
+                    window.location = '../cerberusScene/cerberusScene.html'
+                };
+            }
         }
     }
+    
 }
 
 async function loadObjDeath(scene, x, y, z, rotation)

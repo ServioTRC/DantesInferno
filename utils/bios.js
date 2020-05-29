@@ -18,4 +18,5 @@ async function addPhotoElement(scene, image, x, y, z, rotation)
     mesh.position.set(x, y, z);
     mesh.rotation.y += rotation;
     await scene.add( mesh );
+    return mesh;
 }
