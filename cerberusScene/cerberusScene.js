@@ -201,7 +201,7 @@ function run()
     renderer.render( scene, camera );
     
     // COMENTAR FUNCIÓN PARA ORBIT
-    if ( controls.isLocked === true && loading) 
+    if (!screen_locked && controls.isLocked === true && loading) 
     {
         let time = performance.now();
         let delta = ( time - prevTime ) / 1000;
@@ -222,6 +222,20 @@ function run()
             && camera.position.z + deltaz_change * 3 > -2800 && camera.position.z + deltaz_change * 3 < 2800){
             controls.moveRight(deltax_change);
             controls.moveForward(deltaz_change);
+        } else {
+            if(camera.position.x < -2800){
+                console.log("atorado en -x")
+                camera.position.x += 100;
+            } else if(camera.position.x > 2800){
+                console.log("atorado en +x")
+                camera.position.x -= 100;
+            } else if(camera.position.z < -700){
+                console.log("atorado en -z")
+                camera.position.z += 100;
+            } else if(camera.position.z > 2800){
+                console.log("atorado en z")
+                camera.position.z -= 100;
+            }
         }
 
         prevTime = time;

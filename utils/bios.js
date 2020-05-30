@@ -10,7 +10,6 @@ async function addPhotoElement(scene, image, x, y, z, rotation)
     let mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
         color:color,
         map:texture,
-        shininess: 0,
         refractionRatio: 0,
         reflectivity: 0,
         side:THREE.DoubleSide

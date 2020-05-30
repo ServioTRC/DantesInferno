@@ -232,7 +232,7 @@ function run()
     if(!loading && torchLoaded && wolfLoaded && doorLoaded && bearLoaded && treesLoaded)
         removeLoading();
 
-    if ( controls.isLocked === true && torchLoaded && wolfLoaded && doorLoaded && bearLoaded && treesLoaded) 
+    if (!screen_locked && controls.isLocked === true && torchLoaded && wolfLoaded && doorLoaded && bearLoaded && treesLoaded) 
     {
         let time = performance.now();
         let delta = ( time - prevTime ) / 1000;
@@ -253,6 +253,20 @@ function run()
             && camera.position.z + deltaz_change * 3 > -1300 && camera.position.z + deltaz_change * 3 < 1300){
             controls.moveRight(deltax_change);
             controls.moveForward(deltaz_change);
+        } else {
+            if(camera.position.x < -1300){
+                console.log("atorado en -x")
+                camera.position.x += 100;
+            } else if(camera.position.x > 1300){
+                console.log("atorado en +x")
+                camera.position.x -= 100;
+            } else if(camera.position.z < -1300){
+                console.log("atorado en -z")
+                camera.position.z += 100;
+            } else if(camera.position.z > 1300){
+                console.log("atorado en z")
+                camera.position.z -= 100;
+            }
         }
 
         prevTime = time;
