@@ -5,7 +5,7 @@ function onWindowResize()
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-let screen_locked = true;
+let screen_locked = true, extra_finish = true;
 
 function initPointerLock(scene, camera)
 {
@@ -35,7 +35,7 @@ function initPointerLock(scene, camera)
 
 function onKeyDown ( event )
 {
-    if(!screen_locked){
+    if(!screen_locked && extra_finish){
         switch ( event.keyCode ) {
 
             case 38: // up

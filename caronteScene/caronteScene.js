@@ -147,7 +147,8 @@ async function loadGLTFDoor(scene)
 }
 
 function createScene(canvas) 
-{    
+{   
+    extra_finish = false;
     // Create the Three.js renderer and attach it to our canvas
     renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true, delta: true} );
 
@@ -285,6 +286,7 @@ function animate() {
     if(!finished && boat_moved && !boat_death_torch_animator.running){
         console.log("acabo");
         finished = true; 
+        extra_finish = true;
     }
     let fract = deltat / duration;
     uniforms.time.value += fract;
