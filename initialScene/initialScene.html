@@ -1,0 +1,53 @@
+<html lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>El Infierno de Dante</title>
+
+<link rel="stylesheet" href="../libs/jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" href="../css/main.css"/>
+<link rel="stylesheet" href="../css/initialScene.css"/>
+
+<script src="../libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="../libs/jquery-ui/jquery-ui.js"></script>
+<script src="../libs/three.js/three.js"></script>
+
+<script src="../utils/screenHandler.js" type="text/javascript"></script>
+<script src="initialScene.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(document).ready(
+	function() {
+
+		let canvas = document.getElementById("webglcanvas");
+
+		// create the scene
+		createScene(canvas);
+		
+		// Run the run loop
+		run();
+	}
+);
+</script>
+
+</head>
+<body>
+	<div id="container">
+		<canvas id="webglcanvas"></canvas>
+		<div id="title">
+			Recorrido virtual por el infierno de Dante
+		</div>
+		<div id="question">
+			¿Seguro que quieres entrar? Puede que no regreses
+		</div>
+		<button id="button" type="button" onclick="changeToDoor()">Entrar</button> 
+		<div id="text">
+			Creadores
+			<ul>
+				<li>Fabián Camp Mussa A01378565</li>
+				<li>Servio Tulio Reyes Castillo A01371719</li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+</html>

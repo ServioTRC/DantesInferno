@@ -32,6 +32,6 @@ function createScene(canvas)
     window.addEventListener( 'resize', onWindowResize);
 }
 
-function restart(){
-    window.location = '../initialScene/initialScene.html'
+function changeToDoor(){
+    window.location = '../doorScene/doorScene.html'
 }

@@ -1,0 +1,43 @@
+#title {
+	color:#b24700;
+	position: absolute;
+	margin-top: -45%;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+	font-size:50px;
+}
+
+#question {
+	color:#b20000;
+	position: absolute;
+	margin-top: -40%;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+    font-size:100px;
+    font-style: italic;
+}
+
+#button {
+	position: absolute;
+	margin-top: -20%;
+	margin-left:43%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+	font-size:40px;
+}
+
+#text {
+	color:goldenrod;
+	position: absolute;
+	margin-top: -10%;
+	width: 100%;
+	/* text-align: center; */
+	z-index: 100;
+	display:block;
+    font-size:30px;
+}
