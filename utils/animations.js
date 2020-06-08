@@ -190,3 +190,36 @@ async function movePenguin(penguinObj){
     });
     penguinAnimator2.start();
 }
+
+async function moveCard(card, y_position, rotation){
+    let item = animations_tween_type[Math.floor(Math.random() * animations_tween_type.length)];
+    let card_animator = new KF.KeyFrameAnimator;
+    card_animator.init({
+        interps:
+        [{
+            keys:[0, 0.5, 1], 
+            values:[
+                {y: y_position},
+                {y: y_position+30},
+                {y: y_position},
+            ],
+            target:card.position
+        },
+        {
+            keys:[0, 0.25, 0.5, 0.75, 1], 
+            values:[
+                {y: rotation},
+                {y: rotation + Math.PI/4},
+                {y: rotation},
+                {y: rotation - Math.PI/4},
+                {y: rotation},
+            ],
+            target:card.rotation
+        }],
+        loop: true,
+        duration: 30*1000,
+        easing:item,
+    });
+    card_animator.start();
+    return card_animator;
+}
