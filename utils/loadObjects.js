@@ -70,9 +70,10 @@ async function loadObjTorch(scene, x, y, z)
         torch.position.y = y;
         torch.castShadow = false;
         torch.receiveShadow = true;
-        let light = await loadObjFire(scene, x, 53, z);
+        let objects = await loadObjFire(scene, x, 53, z);
         scene.add(torch);
-        await fireColorAnimator(light);
+        await fireColorAnimator(objects[0]);
+        await moveTorchAnimator(objects[1], torch);
         return torch;
     }
     catch (err) {
@@ -111,7 +112,7 @@ async function loadObjFire(scene, x, y, z)
 
         scene.add(light);
         scene.add(fire);
-        return light;
+        return [light, fire];
     }
     catch (err) {
         return onError(err);
@@ -271,6 +272,7 @@ async function loadObjGargoyle(scene, x, y, z, rotation_y)
         gargoyle.castShadow = false;
         gargoyle.receiveShadow = true;
         scene.add(gargoyle);
+        await moveMonsterAnimator(gargoyle, rotation_y);
     }
     catch (err) {
         return onError(err);
@@ -338,6 +340,7 @@ async function loadObjMonster(scene, x, y, z, rotation)
         monster.castShadow = false;
         monster.receiveShadow = true;
         scene.add(monster);
+        await moveMonsterAnimator(monster, rotation);
     }
     catch (err) {
         return onError(err);
@@ -373,6 +376,7 @@ async function loadObjRockMoster(scene, x, y, z, rotation)
         rock_monster.castShadow = false;
         rock_monster.receiveShadow = true;
         scene.add(rock_monster);
+        await moveMonsterAnimator(rock_monster, rotation);
     }
     catch (err) {
         return onError(err);
@@ -434,6 +438,46 @@ async function loadObjCerberus(scene, x, y, z, rotation_x, rotation_y)
         cerberus.receiveShadow = true;
         scene.add(cerberus);
         return cerberus
+    }
+    catch (err) {
+        return onError(err);
+    }
+}
+
+async function loadObjPenguin(scene)
+{   
+    let objModelUrl = {obj:'../models/penguin/penguin.obj', map:"../models/penguin/peng_texture.jpg"};
+    const objPromiseLoader = promisifyLoader(new THREE.OBJLoader());
+
+    try {
+        const object = await objPromiseLoader.load(objModelUrl.obj);
+
+        let texture = objModelUrl.hasOwnProperty('map') ? new THREE.TextureLoader().load(objModelUrl.map) : null;
+        let normalMap = objModelUrl.hasOwnProperty('normalMap') ? new THREE.TextureLoader().load(objModelUrl.normalMap) : null;
+        let specularMap = objModelUrl.hasOwnProperty('specularMap') ? new THREE.TextureLoader().load(objModelUrl.specularMap) : null;
+
+        object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+                child.material.map = texture;
+                child.material.normalMap = normalMap;
+                child.material.specularMap = specularMap;
+            }
+        });
+        console.log(object);
+        object.scale.set(3, 3, 3);
+        object.position.z = 0;
+        object.position.x = 0;
+        object.rotation.y = 2;
+        object.name = "objObject";
+        penguinObj = object;
+        object.scale.set(10, 10, 10);
+        penguinObj.castShadow = false;
+        penguinObj.receiveShadow = true;
+        scene.add(object);
+        await movePenguin(penguinObj);
+        return penguinObj;
     }
     catch (err) {
         return onError(err);

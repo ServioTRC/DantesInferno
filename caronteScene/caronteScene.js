@@ -20,7 +20,7 @@ let velocity, direction;
 
 var door_snd = new Audio("../sounds/creaky_door.mp3");
 let currentTime = Date.now();
-let duration = 30;
+let duration = 2;
 let created = false;
 let euclides, homero, penthesileia, socrates, virgilio;
 

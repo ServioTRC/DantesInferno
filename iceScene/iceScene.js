@@ -19,9 +19,10 @@ let velocity, direction;
 let deltax_change, deltaz_change;
 let brutus, cain, casio, judas, mordred;
 
-let doorLoaded, gargoylesLoaded, cthuluLoaded, icebergsLoaded, loading = false, fireLoaded;
+let doorLoaded, gargoylesLoaded, cthuluLoaded, icebergsLoaded, loading = false, fireLoaded, penguinLoaded;
 
 var door_snd = new Audio("../sounds/creaky_door.mp3");
+var penguin_snd = new Audio("../sounds/penguin.wav");
 var wind_snd = new Audio("../sounds/wind.mp3");
 wind_snd.addEventListener('ended', function() {
     this.currentTime = 0;
@@ -153,6 +154,10 @@ function createScene(canvas)
     createGargoyles(scene).then(()=>{
         gargoylesLoaded = true;
     });
+    loadObjPenguin(scene).then((penguin)=>{
+        penguinLoaded = true;
+        penguinObj = penguin;
+    });
 }
     
 async function loadObjIcebergsAndPhotos(scene){
@@ -220,7 +225,7 @@ function run()
     renderer.render( scene, camera );
     animate();
 
-    if(!loading && doorLoaded && gargoylesLoaded && cthuluLoaded && icebergsLoaded && fireLoaded)
+    if(!loading && doorLoaded && gargoylesLoaded && cthuluLoaded && icebergsLoaded && fireLoaded && penguinLoaded)
         removeLoading();
     
     // COMENTAR FUNCIÓN PARA ORBIT
@@ -280,7 +285,12 @@ function onDocumentMouseDown(event)
         return;
     if(screen_locked)
         return;
-    let intersects = raycaster.intersectObject( brutus, true );
+    let intersects = raycaster.intersectObject( penguinObj, true );
+    if(intersects.length > 0){
+        penguin_snd.currentTime=0;
+        penguin_snd.play();
+    }
+    intersects = raycaster.intersectObject( brutus, true );
     if(intersects.length > 0){
         window.open('https://es.wikipedia.org/wiki/Marco_Junio_Bruto', '_blank');
     }
@@ -301,7 +311,6 @@ function onDocumentMouseDown(event)
         window.open('https://es.wikipedia.org/wiki/Mordred', '_blank');
     }
     intersects = raycaster.intersectObject( door, true );
-    console.log(intersects);
     if(intersects.length > 0){
         console.log("intersects", intersects[0].distance);
         if(intersects[0].distance < 800){
